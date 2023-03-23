@@ -2,13 +2,13 @@ import { Identifier } from 'typescript';
 
 interface Client {
   id?: string;
-  firstName: string;
-  lastName: string;
-  paymentMethod: 'credit' | 'cash' | 'venmo' | 'other';
-  textOK: boolean;
-  emailOK: boolean;
-  numSessions: number;
-  numCancel: number;
+  first_name: string;
+  last_name: string;
+  payment_method: 'credit' | 'cash' | 'venmo' | 'other';
+  text_ok: boolean;
+  email_ok: boolean;
+  num_sessions: number;
+  num_cancels: number;
   // add more
   rate: number;
   email: string;
