@@ -9,6 +9,7 @@ import {
   NumberInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { postClient } from '@/services/clientService';
 
 function User() {
   const form = useForm({
@@ -27,9 +28,20 @@ function User() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
+
+  const handleSubmit = async (formData: any) => {
+    const newClient = { ...formData, numSessions: 0, numCancels: 0 };
+    const postClientResponse = await postClient(newClient);
+  };
+
   return (
     <Box>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form
+        onSubmit={form.onSubmit((values) => {
+          console.log(values);
+          handleSubmit(values);
+        })}
+      >
         <TextInput
           withAsterisk
           label="First Name"
@@ -93,18 +105,3 @@ function User() {
 }
 
 export default User;
-
-interface Client {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  paymentMethod: 'credit' | 'cash' | 'venmo' | 'other';
-  textOK: boolean;
-  emailOK: boolean;
-  numSessions: number;
-  numCancel: number;
-  // add more
-  rate: number;
-  email: string;
-  cell: string;
-}
