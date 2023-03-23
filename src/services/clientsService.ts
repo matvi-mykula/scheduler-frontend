@@ -1,15 +1,15 @@
 import axios from 'axios';
 import Client from '@/types/user';
-import currentEnv from '@/utils/environment';
+import { serverPath } from '@/utils/environment';
 
 const getClients = async () => {
-  const response = await axios.get(`${currentEnv()}/api/clients`);
+  const response = await axios.get(`${serverPath}/api/clients`);
   return response.data;
 };
 
 const postClient = (clientData: Client) => {
   axios
-    .post(`${currentEnv()}/api/clients`, {
+    .post(`${serverPath}/api/clients`, {
       clientData,
     })
     .then((response) => {})
