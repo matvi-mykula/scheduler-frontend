@@ -10,11 +10,11 @@ import {
   Text,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { getClients } from '@/services/clientService';
+import { getClients } from '@/services/clientsService';
 import { useEffect, useState } from 'react';
 import Client from '@/types/user';
 
-export default function SeeUsers() {
+export default function Clients() {
   const [clients, setClients] = useState<Client[]>([]);
 
   const fetchClients = async () => {

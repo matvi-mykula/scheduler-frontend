@@ -9,7 +9,7 @@ import {
   NumberInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { postClient } from '@/services/clientService';
+import { postClient } from '@/services/clientsService';
 
 function User() {
   const form = useForm({
