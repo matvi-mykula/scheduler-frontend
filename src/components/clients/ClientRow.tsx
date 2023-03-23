@@ -7,7 +7,6 @@ interface ClientRowProps {
 }
 
 export default function ClientRow({ key, rowData }: ClientRowProps) {
-  console.log(rowData);
   return (
     <tr key={rowData.id}>
       <td>{rowData.first_name}</td>
