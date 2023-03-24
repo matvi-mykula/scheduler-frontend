@@ -37,18 +37,12 @@ export default function Clients() {
     fetchClients();
   }, []);
 
-  ////----- table stuff (max may want this in a seperate file)
-  const [columnWidths, setColumnWidths] = useState([
-    150, 150, 150, 150, 150, 150, 150, 150, 150, 150,
-  ]);
-  const handleResize = (columnIndex: number, newWidth: number) => {
-    const newWidths = [...columnWidths];
-    newWidths[columnIndex] = newWidth;
-    setColumnWidths(newWidths);
-  };
-
   return (
-    <Box>
+    <Box
+      style={{
+        margin: '5%',
+      }}
+    >
       <DataTable
         withBorder
         borderRadius="sm"
@@ -68,7 +62,7 @@ export default function Clients() {
             title: 'ID',
             // right-align column
             textAlignment: 'right',
-            sortable: true,
+            sortable: true, // add this to pertinent columns
           },
           { accessor: 'first_name' },
           { accessor: 'last_name' },
@@ -89,77 +83,27 @@ export default function Clients() {
           { accessor: 'num_cancels' },
         ]}
         // execute this callback when a row is clicked
-        // onRowClick={({ name, party, bornIn }) =>
-        //   alert(
-        //     `You clicked on ${name}, a ${party.toLowerCase()} president born in ${bornIn}`
-        //   )
-        // }
-      />
-
-      {/* 
-      <Text>Users will go here</Text>
-      <Box
-        style={{
-          width: '80%',
-          height: '80%',
-          margin: 'auto',
-          border: '1px solid black',
-          // display: 'flex',
-          // // flexDirection: 'column',
-          // justifyContent: 'center',
+        onRowClick={({ ...client }) => {
+          console.log({ client });
+          router.push({
+            pathname: `/clientProfile`,
+            query: {
+              id: client.id,
+              first_name: client.first_name,
+              last_name: client.last_name,
+              payment_method: client.payment_method,
+              text_ok: client.text_ok,
+              email_ok: client.email_ok,
+              num_sessions: client.num_sessions,
+              num_cancels: client.num_cancels,
+              cell: client.cell,
+              email: client.email,
+              rate: client.rate,
+            },
+          });
+          //maybe use mantine HoverCard here
         }}
-      >
-        <Table
-          fontSize="1vw"
-          striped
-          highlightOnHover
-          withBorder
-          withColumnBorders
-          style={{ objectFit: 'contain', overflow: 'auto' }}
-        >
-          <thead>
-            <tr>
-              <th
-                style={{
-                  width: `${columnWidths[0]}px`,
-                  resize: 'horizontal',
-                  userSelect: 'auto',
-                }}
-                onDrag={(e) => handleResize(0, e.currentTarget.offsetWidth)}
-              >
-                First Name
-              </th>
-              <th
-                style={{
-                  width: `${columnWidths[0]}px`,
-                  resize: 'horizontal',
-                  userSelect: 'none',
-                }}
-                onDrag={(e) => handleResize(0, e.currentTarget.offsetWidth)}
-              >
-                Last Name
-              </th>
-              <th>Cell</th>
-              <th>Text OK</th>
-              <th>Email</th>
-              <th>Email OK</th>
-              <th>Payment Method</th>
-              <th>Number of Session</th>
-              <th>Number of Cancels</th>
-              <th>Rate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {clients.length &&
-              clients.map((client, index) => (
-                <ClientRow
-                  key={index}
-                  rowData={client}
-                ></ClientRow>
-              ))}
-          </tbody>
-        </Table>
-      </Box> */}
+      />
     </Box>
   );
 }

@@ -1,5 +1,3 @@
-import { Identifier } from 'typescript';
-
 interface Client {
   id?: string;
   first_name: string;
@@ -16,3 +14,5 @@ interface Client {
 }
 
 export default Client;
+
+// balance of sessions???? owed vs?
