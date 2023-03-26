@@ -69,7 +69,10 @@ export default function ClientProfile() {
       </Box>
       <Box>
         {sessionForm ? (
-          <SessionForm client={client}></SessionForm>
+          <SessionForm
+            client={client}
+            showSessionForm={showSessionForm}
+          ></SessionForm>
         ) : (
           <Button
             onClick={() => {
