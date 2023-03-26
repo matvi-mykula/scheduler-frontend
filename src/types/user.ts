@@ -11,6 +11,7 @@ interface Client {
   rate: number;
   email: string;
   cell: string;
+  [key: string]: string | boolean | number | undefined;
 }
 
 export default Client;
