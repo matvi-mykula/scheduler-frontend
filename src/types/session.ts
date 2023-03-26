@@ -6,8 +6,7 @@ interface Session {
   confirmed: boolean;
   canceled: boolean;
   location: string;
-  date: Date;
-  time: string;
+  dateTime: Date;
 }
 
 export default Session;
