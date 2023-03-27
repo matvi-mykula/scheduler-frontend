@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Client from '@/types/user';
 import Session from '@/types/session';
+import schedule from 'node-schedule';
 
 const postTextToPhone = (number: string, msg: string) => {
   axios
@@ -43,5 +44,20 @@ const schedulingMessage = (date: Date, client: Client, session: Session) => {
 
   return schedulingText;
 };
+const getDate24HoursBefore = (date: Date): Date => {
+  const newDate = new Date();
+  newDate.setTime(date.getTime() - 24 * 60 * 60 * 1000);
+  return newDate;
+};
 
-export { postTextToPhone, schedulingMessage };
+const reminderMessage = (date: Date, client: Client, session: Session) => {
+  const reminderDate = getDate24HoursBefore(date);
+  console.log('should remind at');
+  console.log({ reminderDate });
+  const reminderContent = schedulingMessage(date, client, session);
+  schedule.scheduleJob(reminderDate, () => {
+    postTextToPhone(client.cell, reminderContent);
+  });
+};
+
+export { postTextToPhone, schedulingMessage, reminderMessage };

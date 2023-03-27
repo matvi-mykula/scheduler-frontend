@@ -6,7 +6,11 @@ import { postSession } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker } from '@mantine/dates';
 import { Box, TextInput, Select, Checkbox, Button } from '@mantine/core';
-import { postTextToPhone, schedulingMessage } from '@/services/scheduleText';
+import {
+  postTextToPhone,
+  reminderMessage,
+  schedulingMessage,
+} from '@/services/scheduleText';
 dayjs.extend(tz);
 
 interface SessionFormProps {
@@ -48,6 +52,7 @@ export default function SessionForm({
       const schedulingText = schedulingMessage(dateValue, client, newSession);
       //need to check if email or text or none or both
       const confirmationMessage = postTextToPhone(client.cell, schedulingText);
+      const sendReminder = reminderMessage(dateValue, client, newSession);
     }
   };
 
