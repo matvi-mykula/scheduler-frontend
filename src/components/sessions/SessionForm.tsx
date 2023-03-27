@@ -43,11 +43,9 @@ export default function SessionForm({
       canceled: false,
       confirmed: false,
     };
-    console.log({ newSession });
     const postSessionResponse = await postSession(newSession);
     if (dateValue) {
       const schedulingText = schedulingMessage(dateValue, client, newSession);
-      console.log({ schedulingText });
       //need to check if email or text or none or both
       const confirmationMessage = postTextToPhone(client.cell, schedulingText);
     }
