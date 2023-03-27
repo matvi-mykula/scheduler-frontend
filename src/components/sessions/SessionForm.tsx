@@ -19,8 +19,8 @@ export default function SessionForm({
 }: SessionFormProps) {
   const now = new Date();
   const [locationData, setLocationData] = useState([
-    { value: 'montclair park', label: 'Montclair Park' },
-    { value: 'dojo', label: 'Compound Dojo' },
+    { value: 'Montclair Park', label: 'Montclair Park' },
+    { value: 'Compound Dojo', label: 'Compound Dojo' },
   ]);
   const [dateValue, setDateValue] = useState<Date | null>(now);
 
@@ -46,8 +46,10 @@ export default function SessionForm({
     console.log({ newSession });
     const postSessionResponse = await postSession(newSession);
     if (dateValue) {
-      const schedulingText = schedulingMessage(dateValue, client);
+      const schedulingText = schedulingMessage(dateValue, client, newSession);
       console.log({ schedulingText });
+      //need to check if email or text or none or both
+      const confirmationMessage = postTextToPhone(client.cell, schedulingText);
     }
   };
 
