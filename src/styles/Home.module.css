@@ -6,6 +6,19 @@
   padding: 6rem;
   min-height: 100vh;
 }
+.header {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+}
+.header > * {
+  margin-left: 5%;
+  background-color: rgba(var(--callout-rgb), 0.5);
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+}
 
 .description {
   display: inherit;
@@ -44,6 +57,7 @@
   grid-template-columns: repeat(4, minmax(25%, auto));
   width: var(--max-width);
   max-width: 100%;
+  margin-bottom: 25%;
 }
 
 .card {
@@ -150,7 +164,12 @@
   );
   background-clip: content-box;
 }
-
+@media (hover: hover) and (pointer: fine) {
+  .header > *:hover {
+    background: rgba(var(--description-rgb), 0.1);
+    border: 1px solid grey;
+  }
+}
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
