@@ -6,6 +6,7 @@ import { postSession } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker } from '@mantine/dates';
 import { Box, TextInput, Select, Checkbox, Button } from '@mantine/core';
+import { postTextToPhone, schedulingMessage } from '@/services/scheduleText';
 dayjs.extend(tz);
 
 interface SessionFormProps {
@@ -25,7 +26,7 @@ export default function SessionForm({
 
   const form = useForm({
     initialValues: {
-      dateTime: dateValue,
+      date_time: dateValue,
       location: 'Montclair',
       confirmation: 'none',
     },
@@ -37,22 +38,24 @@ export default function SessionForm({
     console.log(formData);
     const newSession = {
       ...formData,
-      id: client.id,
+      client_id: client.id,
       reminder_sent: false,
       canceled: false,
       confirmed: false,
     };
     console.log({ newSession });
     const postSessionResponse = await postSession(newSession);
-
-    //   const postClientResponse = await postClient(newClient);
+    if (dateValue) {
+      const schedulingText = schedulingMessage(dateValue, client);
+      console.log({ schedulingText });
+    }
   };
 
   return (
     <Box style={{ overflow: 'visible' }}>
       <form
         onSubmit={form.onSubmit((values) => {
-          values.dateTime = dateValue;
+          values.date_time = dateValue;
           console.log(values);
           handleSubmit(values);
         })}

@@ -22,7 +22,7 @@ import { DataTable } from 'mantine-datatable';
 import { getSessions } from '@/services/sessionsService';
 import Session from '@/types/session';
 
-export default function Clients() {
+export default function Sessions() {
   const router = useRouter();
   // const navigate = useNavigate();
   // how to navigate to next page onclick????
@@ -38,7 +38,6 @@ export default function Clients() {
   useEffect(() => {
     fetchClients();
   }, []);
-
   return (
     <Box
       style={{
