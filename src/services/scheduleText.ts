@@ -27,7 +27,12 @@ const daysOfWeek = [
   'Saturday',
 ];
 
-const schedulingMessage = (date: Date, client: Client, session: Session) => {
+const schedulingMessage = (
+  date: Date,
+  client: Client,
+  session: Session,
+  variable: string
+) => {
   let options = { weekday: 'long', month: 'long', day: 'numeric' };
   const formattedDate = date.toLocaleDateString('en-US');
 
@@ -38,7 +43,7 @@ const schedulingMessage = (date: Date, client: Client, session: Session) => {
   });
   const schedulingText = `Hey ${
     client.first_name
-  }! This text is confirming that you have scheduled personal training on ${
+  }! This text is ${variable} that you have scheduled personal training on ${
     daysOfWeek[date?.getDay()]
   } ${formattedDate} at ${formattedTime} at ${session.location}`;
 
@@ -54,7 +59,12 @@ const reminderMessage = (date: Date, client: Client, session: Session) => {
   const reminderDate = getDate24HoursBefore(date);
   console.log('should remind at');
   console.log({ reminderDate });
-  const reminderContent = schedulingMessage(date, client, session);
+  const reminderContent = schedulingMessage(
+    date,
+    client,
+    session,
+    'a reminder'
+  );
   schedule.scheduleJob(reminderDate, () => {
     postTextToPhone(client.cell, reminderContent);
   });

@@ -9,6 +9,7 @@ import {
   NumberInput,
   Text,
   Table,
+  ActionIcon,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { getClients } from '@/services/clientsService';
