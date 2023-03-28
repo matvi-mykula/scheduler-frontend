@@ -22,6 +22,8 @@ import { useEffect, useState } from 'react';
 import { DataTable } from 'mantine-datatable';
 import { getSessions } from '@/services/sessionsService';
 import Session from '@/types/session';
+import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
+// import { showNotification } from '@mantine/notifications';
 
 export default function Sessions() {
   const router = useRouter();
@@ -39,12 +41,15 @@ export default function Sessions() {
   useEffect(() => {
     fetchClients();
   }, []);
+  //   const [selectedRecords, setSelectedRecords] = useState<Session[]>([]);
+
   return (
     <Box
       style={{
         margin: '5%',
       }}
     >
+      <Box></Box>
       <DataTable
         withBorder
         borderRadius="sm"
@@ -58,6 +63,35 @@ export default function Sessions() {
         ]}
         // define columns
         columns={[
+          {
+            accessor: 'actions',
+            title: <Text mr="xs">Row actions</Text>,
+            textAlignment: 'left',
+            render: (session) => (
+              <Group
+                spacing={4}
+                position="left"
+                noWrap
+              >
+                <ActionIcon
+                  color="blue"
+                  onClick={() => {
+                    console.log('edit session');
+                  }}
+                >
+                  <IconEdit size={16} />
+                </ActionIcon>
+                <ActionIcon
+                  color="red"
+                  onClick={() => {
+                    console.log('delete entry');
+                  }}
+                >
+                  <IconTrash size={16} />
+                </ActionIcon>
+              </Group>
+            ),
+          },
           {
             accessor: 'id',
             // this column has a custom title
@@ -82,6 +116,7 @@ export default function Sessions() {
             render: ({ reminder_sent }) => <Text>{`${reminder_sent}`}</Text>,
           },
         ]}
+
         // execute this callback when a row is clicked
         // onRowClick={({ ...//session }) => {
         //   console.log({ session });
