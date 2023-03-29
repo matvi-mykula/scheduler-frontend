@@ -2,6 +2,7 @@ import axios from 'axios';
 import Client from '@/types/user';
 import Session from '@/types/session';
 import schedule from 'node-schedule';
+import { updateSession } from './sessionsService';
 
 const postTextToPhone = (number: string, msg: string) => {
   axios

@@ -13,16 +13,19 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { getClients } from '@/services/clientsService';
+import { Modal } from '@mantine/core';
 // import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
+import { useDisclosure } from '@mantine/hooks';
 
 import { useEffect, useState } from 'react';
 // import Client from '@/types/user';
 // import ClientRow from '@/components/clients/ClientRow';
 import { DataTable } from 'mantine-datatable';
-import { getSessions } from '@/services/sessionsService';
+import { deleteSession, getSessions } from '@/services/sessionsService';
 import Session from '@/types/session';
 import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
+import EditSession from '@/services/EditSession';
 // import { showNotification } from '@mantine/notifications';
 
 export default function Sessions() {
