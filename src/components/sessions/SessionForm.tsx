@@ -70,6 +70,7 @@ export default function SessionForm({
           values.date_time = dateValue;
           console.log(values);
           handleSubmit(values);
+          showSessionForm(false);
         })}
       >
         <Select
