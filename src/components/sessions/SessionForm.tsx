@@ -48,17 +48,19 @@ export default function SessionForm({
       confirmed: false,
     };
     const postSessionResponse = await postSession(newSession);
-    if (dateValue) {
+    if (dateValue && client.text_ok) {
+      // checks if its ok to text client
       const schedulingText = schedulingMessage(
         dateValue,
         client,
         newSession,
         'confirming'
       );
-      //need to check if email or text or none or both
-      const confirmationMessage = postTextToPhone(client.cell, schedulingText);
+      //   this is commented out to save money
+      //   const confirmationMessage = postTextToPhone(client.cell, schedulingText);
       const sendReminder = reminderMessage(dateValue, client, newSession);
     }
+    /// need to set up email message and check if its ok to email
   };
 
   return (
