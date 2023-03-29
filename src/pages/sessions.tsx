@@ -33,17 +33,24 @@ export default function Sessions() {
   // const navigate = useNavigate();
   // how to navigate to next page onclick????
   const [sessions, setSessions] = useState<Session[]>([]);
-
-  const fetchClients = async () => {
+  const [tableChange, setTableChange] = useState(false);
+  const [editFormOpened, { open, close }] = useDisclosure(false);
+  const [editSession, setEditSession] = useState(null);
+  const fetchSessions = async () => {
+    console.log('fetching');
     const response = await getSessions();
     const { data, success } = response;
+    console.log(data);
     if (success) {
       setSessions(data);
     }
   };
   useEffect(() => {
-    fetchClients();
+    fetchSessions();
   }, []);
+  useEffect(() => {
+    fetchSessions();
+  }, [tableChange]);
   //   const [selectedRecords, setSelectedRecords] = useState<Session[]>([]);
 
   return (
@@ -52,7 +59,6 @@ export default function Sessions() {
         margin: '5%',
       }}
     >
-      <Box></Box>
       <DataTable
         withBorder
         borderRadius="sm"
@@ -70,29 +76,49 @@ export default function Sessions() {
             accessor: 'actions',
             title: <Text mr="xs">Row actions</Text>,
             textAlignment: 'left',
-            render: (session) => (
-              <Group
-                spacing={4}
-                position="left"
-                noWrap
-              >
-                <ActionIcon
-                  color="blue"
-                  onClick={() => {
-                    console.log('edit session');
-                  }}
+            render: (row) => (
+              <>
+                {/*  this opens a modal with a edit session form */}
+                <Box>
+                  {' '}
+                  <Modal
+                    opened={editFormOpened}
+                    onClose={close}
+                    title="Authentication"
+                  >
+                    <EditSession session={row}></EditSession>
+                  </Modal>
+                </Box>
+                <Group
+                  spacing={4}
+                  position="left"
+                  noWrap
                 >
-                  <IconEdit size={16} />
-                </ActionIcon>
-                <ActionIcon
-                  color="red"
-                  onClick={() => {
-                    console.log('delete entry');
-                  }}
-                >
-                  <IconTrash size={16} />
-                </ActionIcon>
-              </Group>
+                  <ActionIcon
+                    color="blue"
+                    onClick={open}
+                  >
+                    <IconEdit size={16} />
+                  </ActionIcon>
+                  <ActionIcon
+                    color="red"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          'Are you sure you want to delete this post?'
+                        )
+                      ) {
+                        console.log(row);
+                        deleteSession(row);
+                        setTableChange(!tableChange);
+                      }
+                      console.log('delete entry');
+                    }}
+                  >
+                    <IconTrash size={16} />
+                  </ActionIcon>
+                </Group>
+              </>
             ),
           },
           {
@@ -119,24 +145,12 @@ export default function Sessions() {
             render: ({ reminder_sent }) => <Text>{`${reminder_sent}`}</Text>,
           },
         ]}
-
         // execute this callback when a row is clicked
-        // onRowClick={({ ...//session }) => {
-        //   console.log({ session });
-        //   router.push({
-        //     pathname: `/clientProfile`,
-        //     query: {
-        //       id: session.id,
-        //       client_id: session.client_id,
-        //       location: session.location,
-        //       date_time: session.dateTime,
-        //       confirmed: session.confirmed,
-        //       canceled: session.canceled,
-        //       reminder_sent: session.reminder_sent,
-        //     },
-        //   });
-        //maybe use mantine HoverCard here
-        // }
+        onRowClick={({ ...client }) => {
+          console.log({ client });
+
+          //maybe use mantine HoverCard here
+        }}
       />
     </Box>
   );
