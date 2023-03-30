@@ -22,7 +22,11 @@ import { useEffect, useState } from 'react';
 // import Client from '@/types/user';
 // import ClientRow from '@/components/clients/ClientRow';
 import { DataTable } from 'mantine-datatable';
-import { deleteSession, getSessions } from '@/services/sessionsService';
+import {
+  deleteSession,
+  getSessions,
+  UTCtoPacific,
+} from '@/services/sessionsService';
 import Session from '@/types/session';
 import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
 import EditSession from '@/services/EditSession';
@@ -129,9 +133,16 @@ export default function Sessions() {
             textAlignment: 'right',
             sortable: true, // add this to pertinent columns
           },
-          { accessor: 'client_id' },
+          { accessor: 'client_id', width: 40 },
           { accessor: 'location' },
-          { accessor: 'date_time' },
+          {
+            accessor: 'date_time',
+            title: 'Date/Time',
+            render: ({ date_time }) => (
+              <Text>{`${UTCtoPacific(date_time)}`}</Text>
+            ),
+          },
+
           {
             accessor: 'confirmed',
             render: ({ confirmed }) => <Text>{`${confirmed}`}</Text>,
