@@ -27,7 +27,7 @@ import {
   getSessions,
   UTCtoPacific,
 } from '@/services/sessionsService';
-import Session from '@/types/session';
+import { Session } from '@/types/session';
 import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
 import EditSession from '@/services/EditSession';
 // import { showNotification } from '@mantine/notifications';
@@ -44,7 +44,6 @@ export default function Sessions() {
     console.log('fetching');
     const response = await getSessions();
     const { data, success } = response;
-    console.log(data);
     if (success) {
       setSessions(data);
     }
@@ -55,12 +54,12 @@ export default function Sessions() {
   useEffect(() => {
     fetchSessions();
   }, [tableChange]);
-  //   const [selectedRecords, setSelectedRecords] = useState<Session[]>([]);
 
   return (
     <Box
       style={{
         margin: '5%',
+        height: 600,
       }}
     >
       <DataTable
@@ -69,41 +68,16 @@ export default function Sessions() {
         withColumnBorders
         striped
         highlightOnHover
-        // provide data
-        records={[
-          ...sessions,
-          // more records...
-        ]}
-        // define columns
+        records={[...sessions]}
         columns={[
           {
             accessor: 'actions',
-            title: <Text mr="xs">Row actions</Text>,
+            title: <Text mr="xs">Actions</Text>,
             textAlignment: 'left',
+            width: 80,
             render: (row) => (
               <>
-                {/*  this opens a modal with a edit session form */}
                 <Box>
-                  {' '}
-                  <Modal
-                    opened={editFormOpened}
-                    onClose={close}
-                    title="Authentication"
-                  >
-                    <EditSession session={row}></EditSession>
-                  </Modal>
-                </Box>
-                <Group
-                  spacing={4}
-                  position="left"
-                  noWrap
-                >
-                  <ActionIcon
-                    color="blue"
-                    onClick={open}
-                  >
-                    <IconEdit size={16} />
-                  </ActionIcon>
                   <ActionIcon
                     color="red"
                     onClick={() => {
@@ -121,17 +95,15 @@ export default function Sessions() {
                   >
                     <IconTrash size={16} />
                   </ActionIcon>
-                </Group>
+                </Box>
               </>
             ),
           },
           {
             accessor: 'id',
-            // this column has a custom title
             title: 'ID',
-            // right-align column
             textAlignment: 'right',
-            sortable: true, // add this to pertinent columns
+            sortable: true, // add to this to make sortable so things dont get mixed up
           },
           { accessor: 'client_id', width: 40 },
           { accessor: 'location' },

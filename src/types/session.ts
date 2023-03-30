@@ -8,4 +8,11 @@ interface Session {
   date_time: Date;
 }
 
-export default Session;
+interface SessionFormProps {
+  session: Session;
+  tableChange: boolean;
+  setTableChange: Function;
+  collapse: Function;
+}
+
+export { Session, SessionFormProps };

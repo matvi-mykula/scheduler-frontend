@@ -2,7 +2,7 @@ import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import tz from 'dayjs/plugin/timezone';
-import { postSession } from '@/services/sessionsService';
+import { postSession, updateSession } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker } from '@mantine/dates';
 import { Box, TextInput, Select, Checkbox, Button } from '@mantine/core';
@@ -11,27 +11,23 @@ import {
   reminderMessage,
   schedulingMessage,
 } from '@/services/scheduleText';
-import Session from '@/types/session';
+import { Session, SessionFormProps } from '@/types/session';
 import ReactDOM from 'react-dom';
 dayjs.extend(tz);
 
-interface SessionFormProps {
-  session: Session;
-}
-export default function EditSession({ session }: SessionFormProps) {
-  console.log(session.date_time);
-  // const now = new Date(session.date_time);
-  const now = new Date();
-
-  console.log(typeof session.date_time);
-  console.log(typeof now);
+export default function EditSession({
+  session,
+  tableChange,
+  setTableChange,
+  collapse,
+}: SessionFormProps) {
+  const now = new Date(session.date_time);
 
   const [locationData, setLocationData] = useState([
     { value: 'Montclair Park', label: 'Montclair Park' },
-    { value: 'Compound Dojo', label: 'Compound Dojo' },
+    { value: 'CompoundDojo', label: 'Compound Dojo' },
   ]);
   const [dateValue, setDateValue] = useState<Date | null>(now);
-  console.log({ now });
 
   const form = useForm({
     initialValues: {
@@ -43,30 +39,20 @@ export default function EditSession({ session }: SessionFormProps) {
   });
 
   const handleSubmit = async (formData: any) => {
-    console.log(formData);
     const newSession = {
       ...formData,
       date_time: dateValue,
     };
-    // const postSessionResponse = await postSession(newSession);
-    // if (dateValue) {
-    //   const schedulingText = schedulingMessage(
-    //     dateValue,
-    //     client,
-    //     newSession,
-    //     'confirming'
-    //   );
-    //   //need to check if email or text or none or both
-    //   const confirmationMessage = postTextToPhone(client.cell, schedulingText);
-    //   const sendReminder = reminderMessage(dateValue, client, newSession);
-    // }
+    console.log({ newSession });
+    updateSession(newSession);
+    setTableChange(!tableChange);
+    collapse();
   };
 
   return (
     <Box style={{ overflow: 'visible' }}>
       <form
         onSubmit={form.onSubmit((values) => {
-          // values.date_time = dateValue;
           console.log(values);
           handleSubmit(values);
         })}

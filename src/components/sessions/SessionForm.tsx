@@ -39,7 +39,6 @@ export default function SessionForm({
   });
 
   const handleSubmit = async (formData: any) => {
-    console.log(formData);
     const newSession = {
       ...formData,
       client_id: client.id,

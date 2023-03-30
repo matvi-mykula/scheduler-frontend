@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Client from '@/types/user';
-import Session from '@/types/session';
+import { Session } from '@/types/session';
 import schedule from 'node-schedule';
 import { updateSession } from './sessionsService';
 
@@ -70,7 +70,7 @@ const reminderMessage = (date: Date, client: Client, session: Session) => {
     //this is commented out to save money
     // postTextToPhone(client.cell, reminderContent);
     session.reminder_sent = true;
-    updateSession(session, 'reminder_sent');
+    updateSession(session);
   });
 };
 
