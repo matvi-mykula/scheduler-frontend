@@ -1,5 +1,5 @@
 interface Session {
-  id?: string;
+  id?: number;
   client_id: string; // should be able to find client with matching unique
   reminder_sent: boolean;
   confirmed: boolean;
@@ -15,4 +15,4 @@ interface SessionFormProps {
   collapse: Function;
 }
 
-export { Session, SessionFormProps };
+export type { Session, SessionFormProps };

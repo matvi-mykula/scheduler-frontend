@@ -21,11 +21,12 @@ export default function EditSession({
   setTableChange,
   collapse,
 }: SessionFormProps) {
+  console.log(typeof session.id);
   const now = new Date(session.date_time);
 
   const [locationData, setLocationData] = useState([
     { value: 'Montclair Park', label: 'Montclair Park' },
-    { value: 'CompoundDojo', label: 'Compound Dojo' },
+    { value: 'Compound Dojo', label: 'Compound Dojo' },
   ]);
   const [dateValue, setDateValue] = useState<Date | null>(now);
 

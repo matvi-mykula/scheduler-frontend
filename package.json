@@ -30,6 +30,7 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.192",
     "@types/node-schedule": "^2.1.0"
   }
 }

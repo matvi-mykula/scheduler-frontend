@@ -21,7 +21,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 // import Client from '@/types/user';
 // import ClientRow from '@/components/clients/ClientRow';
-import { DataTable } from 'mantine-datatable';
+import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import {
   deleteSession,
   getSessions,
@@ -30,6 +30,8 @@ import {
 import { Session } from '@/types/session';
 import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
 import EditSession from '@/services/EditSession';
+import sortBy from 'lodash/sortBy';
+
 // import { showNotification } from '@mantine/notifications';
 
 export default function Sessions() {
@@ -55,6 +57,19 @@ export default function Sessions() {
     fetchSessions();
   }, [tableChange]);
 
+  ////-------make sortable by id
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+    columnAccessor: 'id',
+    direction: 'asc',
+  });
+  const [records, setRecords] = useState(sortBy(sessions, 'id'));
+
+  useEffect(() => {
+    const data = sortBy(sessions, sortStatus.columnAccessor) as Session[];
+    setRecords(sortStatus.direction === 'desc' ? data.reverse() : data);
+  }, [sortStatus, sessions]);
+  ///----
+
   return (
     <Box
       style={{
@@ -68,7 +83,7 @@ export default function Sessions() {
         withColumnBorders
         striped
         highlightOnHover
-        records={[...sessions]}
+        records={records}
         columns={[
           {
             accessor: 'actions',
@@ -140,6 +155,8 @@ export default function Sessions() {
             </Box>
           ),
         }}
+        sortStatus={sortStatus}
+        onSortStatusChange={setSortStatus}
       />
     </Box>
   );
