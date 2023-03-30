@@ -128,11 +128,17 @@ export default function Sessions() {
             render: ({ reminder_sent }) => <Text>{`${reminder_sent}`}</Text>,
           },
         ]}
-        // execute this callback when a row is clicked
-        onRowClick={({ ...client }) => {
-          console.log({ client });
-
-          //maybe use mantine HoverCard here
+        rowExpansion={{
+          content: ({ record, collapse }) => (
+            <Box>
+              <EditSession
+                session={record}
+                tableChange={tableChange}
+                setTableChange={setTableChange}
+                collapse={collapse}
+              ></EditSession>
+            </Box>
+          ),
         }}
       />
     </Box>
