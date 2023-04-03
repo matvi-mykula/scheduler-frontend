@@ -40,6 +40,14 @@ function Home() {
               Create New Client <span>-&gt;</span>
             </h2>
           </Link>
+          <Link
+            href="/calendar"
+            className={styles.card}
+          >
+            <h2 className={inter.className}>
+              See Calendar <span>-&gt;</span>
+            </h2>
+          </Link>
         </div>
       </main>
     </Box>

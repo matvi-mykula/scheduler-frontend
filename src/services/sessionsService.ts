@@ -11,7 +11,16 @@ const getSessions = async () => {
   //     code: response.data.code,
   //     data: convertAllTimes(response.data.data),
   //   };
-  return response.data;
+  return response.data.rows;
+};
+
+const getSessionsForDay = async (day: string) => {
+  console.log('get todays sessions');
+  console.log(day);
+  const response = await axios.get(`${serverPath}/api/sessions/day/${day}`);
+
+  console.log(response.data);
+  return response.data.data.rows;
 };
 
 const postSession = (sessionData: Session) => {
@@ -81,4 +90,11 @@ const convertAllTimes = (sessionArray: Session[]): Session[] => {
   return sessionArray;
 };
 
-export { getSessions, postSession, deleteSession, updateSession, UTCtoPacific };
+export {
+  getSessions,
+  getSessionsForDay,
+  postSession,
+  deleteSession,
+  updateSession,
+  UTCtoPacific,
+};
