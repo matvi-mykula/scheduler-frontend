@@ -295,3 +295,16 @@
     transform: rotate(0deg);
   }
 }
+
+/* calendar stuff */
+
+.scheduleColumnHeader {
+  height: 45px;
+}
+.emptySlot {
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 1px;
+}

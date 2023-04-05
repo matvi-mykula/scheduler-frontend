@@ -18,9 +18,9 @@ const postClient = (clientData: Client) => {
     });
 };
 
-const getClient = async (client_id: number) => {
-  const response = await axios.get(`${serverPath}/api/clients/${client_id}`);
+const getClient = async (client_id: string) => {
+  const response = await axios.get(`${serverPath}/api/client/${client_id}`);
   console.log(response.data);
   return response.data;
 };
-export { getClients, postClient };
+export { getClients, postClient, getClient };

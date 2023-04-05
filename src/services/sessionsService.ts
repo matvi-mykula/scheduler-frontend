@@ -11,7 +11,7 @@ const getSessions = async () => {
   //     code: response.data.code,
   //     data: convertAllTimes(response.data.data),
   //   };
-  return response.data.rows;
+  return response.data;
 };
 
 const getSessionsForDay = async (day: string) => {
