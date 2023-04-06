@@ -6,6 +6,7 @@ import Client from '@/types/user';
 import { getClient } from '../../services/clientsService';
 import { getSessionsForDay } from '../../services/sessionsService';
 import styles from '@/styles/Home.module.css';
+import { useRouter } from 'next/router';
 
 interface DayScheduleProps {
   day: number;
@@ -22,6 +23,8 @@ interface DayScheduleProps {
 // ];
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DaySchedule = (props: DayScheduleProps) => {
+  const router = useRouter();
+
   const today = new Date();
   today.setDate(today.getDate() + props.day);
   console.log({ today });
@@ -60,7 +63,6 @@ const DaySchedule = (props: DayScheduleProps) => {
   });
 
   //// ---- iterate through day by 30 minute sections creating empty blocks
-  /// ---- if there is a session create a session tile
   const startTime = new Date(
     today.getFullYear(),
     today.getMonth(),
@@ -109,7 +111,28 @@ const DaySchedule = (props: DayScheduleProps) => {
       .getMinutes()
       .toString()
       .padStart(2, '0')}`;
-    dayElements.push(<Box className={styles.emptySlot}>{time}</Box>);
+    dayElements.push(
+      <Box
+        className={styles.emptySlot}
+        onClick={() => {
+          let time = new Date(timeBlock);
+          console.log(typeof time);
+          router.push({
+            pathname: `/SessionForm2`,
+            query: {
+              client_id: '0',
+              reminder_sent: false,
+              confirmed: false,
+              canceled: false,
+              location: 'Montclair Park',
+              date_time: time.toString(),
+            },
+          });
+        }}
+      >
+        {time}
+      </Box>
+    );
   });
 
   if (sessions) {
@@ -196,4 +219,18 @@ const SessionTile = (props: { session: Session }) => {
   );
 };
 
+// const newSessionAtTime = (time: string) => {
+
+//   router.push({
+//     pathname: `/sessionForm2`,
+//     query: {
+//       client_id: '0',
+//       reminder_sent: false,
+//       confirmed: false,
+//       canceled: false,
+//       location: 'Montclair Park',
+//       date_time: time,
+//     },
+//   });
+// };
 export { DaySchedule };
