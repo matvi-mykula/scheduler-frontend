@@ -55,8 +55,11 @@ export default function SessionForm({
         newSession,
         'confirming'
       );
+      console.log({ schedulingText });
       //   this is commented out to save money
       //   const confirmationMessage = postTextToPhone(client.cell, schedulingText);
+      //update confirmed
+      // cant do this here cause i do not have acces to the sesion id yet
       const sendReminder = reminderMessage(dateValue, client, newSession);
     }
     /// need to set up email message and check if its ok to email

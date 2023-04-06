@@ -35,24 +35,18 @@ import sortBy from 'lodash/sortBy';
 // import { showNotification } from '@mantine/notifications';
 
 export default function Sessions() {
-  const router = useRouter();
-  // const navigate = useNavigate();
-  // how to navigate to next page onclick????
   const [sessions, setSessions] = useState<Session[]>([]);
   const [tableChange, setTableChange] = useState(false);
-  const [editFormOpened, { open, close }] = useDisclosure(false);
-  const [editSession, setEditSession] = useState(null);
+
   const fetchSessions = async () => {
-    console.log('fetching');
     const response = await getSessions();
     const { data, success } = response;
     if (success) {
       setSessions(data);
     }
   };
-  useEffect(() => {
-    fetchSessions();
-  }, []);
+
+  /// need update on useeffect functionality
   useEffect(() => {
     fetchSessions();
   }, [tableChange]);

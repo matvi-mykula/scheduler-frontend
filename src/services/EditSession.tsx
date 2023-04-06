@@ -21,7 +21,6 @@ export default function EditSession({
   setTableChange,
   collapse,
 }: SessionFormProps) {
-  console.log(typeof session.id);
   const now = new Date(session.date_time);
 
   const [locationData, setLocationData] = useState([

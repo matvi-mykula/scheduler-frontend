@@ -4,34 +4,23 @@ import { Session } from '@/types/session';
 
 const getSessions = async () => {
   const response = await axios.get(`${serverPath}/api/sessions`);
-  console.log('getSessions');
-  console.log(response.data);
-  //   let refined = {
-  //     success: response.data.success,
-  //     code: response.data.code,
-  //     data: convertAllTimes(response.data.data),
-  //   };
+
   return response.data;
 };
 
 const getSessionsForDay = async (day: string) => {
-  console.log('get todays sessions');
-  console.log(day);
   const response = await axios.get(`${serverPath}/api/sessions/day/${day}`);
 
-  console.log(response.data);
   return response.data.data.rows;
 };
 
 const postSession = (sessionData: Session) => {
-  console.log('postSession');
-  console.log({ sessionData });
   axios
     .post(`${serverPath}/api/sessions`, {
       sessionData,
     })
     .then((response) => {
-      console.log('should be updated');
+      console.log('posted');
     })
     .catch((err) => {
       console.log(err);
@@ -39,21 +28,22 @@ const postSession = (sessionData: Session) => {
 };
 
 const deleteSession = (sessionData: Session) => {
-  console.log(sessionData);
   axios
     .delete(`${serverPath}/api/sessions`, { data: sessionData })
-    .then((response) => {})
+    .then((response) => {
+      console.log('deleted');
+    })
     .catch((err) => {
       console.log(err);
     });
 };
 
 const updateSession = (sessionData: Session) => {
-  console.log('updateSession');
-  console.log(sessionData);
   axios
     .put(`${serverPath}/api/sessions`, { data: sessionData })
-    .then((response) => {})
+    .then((response) => {
+      console.log('updated');
+    })
     .catch((err) => {
       console.log(err);
     });
@@ -73,21 +63,6 @@ const UTCtoPacific = (time: Date) => {
     hour12: true,
   });
   return [`${day}, ${month} ${dayOfMonth}, ${year}, \n${oclock}`];
-};
-
-const convertAllTimes = (sessionArray: Session[]): Session[] => {
-  //     if (sessionArray)
-  //   let convertedSessions = { ...sessionArray };
-  if (!Array.isArray(sessionArray)) {
-    throw new Error('sessionArray must be an array');
-  }
-  sessionArray.forEach((session) => {
-    // session.date_time = new Date(UTCtoPacific(session.date_time));
-    // session.date_time = session.date_time.toString();
-    console.log(session.date_time);
-    console.log(typeof session.date_time);
-  });
-  return sessionArray;
 };
 
 export {

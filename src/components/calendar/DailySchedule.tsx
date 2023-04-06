@@ -12,22 +12,12 @@ interface DayScheduleProps {
   day: number;
 }
 
-// const weekdays = [
-//   'Sunday',
-//   'Monday',
-//   'Tuesday',
-//   'Wednesday',
-//   'Thursday',
-//   'Friday',
-//   'Saturday',
-// ];
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DaySchedule = (props: DayScheduleProps) => {
   const router = useRouter();
 
   const today = new Date();
   today.setDate(today.getDate() + props.day);
-  console.log({ today });
   const dayOfWeek = weekdays[today.getDay()];
   const day = today.getDate();
   const month = today.getMonth() + 1; // add 1 because January is 0
@@ -45,22 +35,6 @@ const DaySchedule = (props: DayScheduleProps) => {
 
     fetchData();
   }, []);
-  //   const sessionsForDay = getSessionsForDay(fullDay);
-  //   console.log({ today });
-
-  //   console.log({ sessionsForDay });
-  // useEffect(() => {
-  //   setLoaded(true);
-  // }, [sessions]);
-
-  const sessionsIndex = 0;
-  const dailySessions = sessions.map((session: Session) => {
-    return (
-      <Box key={session.id}>
-        <SessionTile session={session}></SessionTile>
-      </Box>
-    );
-  });
 
   //// ---- iterate through day by 30 minute sections creating empty blocks
   const startTime = new Date(
@@ -143,11 +117,19 @@ const DaySchedule = (props: DayScheduleProps) => {
         if (eventTime >= timeBlocks[i] && eventTime < timeBlocks[i + 1]) {
           isWithinTimeBlock = true;
           dayElements[i] = (
-            <Box key={session.id}>
+            <Box
+              key={session.id}
+              onClick={() => {
+                console.log({ session });
+              }}
+            >
               <SessionTile session={session}></SessionTile>
             </Box>
           );
           dayElements.splice(i + 1, 1);
+          dayElements.splice(i + 1, 1); // hacky way to deal with times
+          //slots being too close to session ends
+          //especilly when dealing with sesion that starts at off time
           i += 2;
         }
       }
@@ -207,8 +189,9 @@ const SessionTile = (props: { session: Session }) => {
       {loaded && (
         <Paper
           shadow="xs"
-          p="md"
+          p="xs"
           radius="lg"
+          className={styles.sessionCard}
         >
           <Text>{client.first_name}</Text>
           <Text>{props.session.location}</Text>
