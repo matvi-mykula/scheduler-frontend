@@ -1,8 +1,8 @@
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import tz from 'dayjs/plugin/timezone';
-import { postSession } from '@/services/sessionsService';
+import { postSession, updateSession } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker, DateValue } from '@mantine/dates';
 import { Box, TextInput, Select, Checkbox, Button } from '@mantine/core';
@@ -108,8 +108,10 @@ export default function SessionForm() {
           label="Pick date and time"
           placeholder="Pick date and time"
           maw={400}
+          defaultValue={dateValue}
           value={dateValue}
-          onChange={() => setDateValue}
+          // onChange={() => setDateValue}
+          onChange={setDateValue}
           style={{ overflow: 'visible' }}
         />
         <Select
@@ -128,8 +130,6 @@ export default function SessionForm() {
           <Button
             type="button"
             onClick={() => {
-              /// go to session page
-              // showSessionForm(false);
               form.reset();
             }}
           >
@@ -140,4 +140,6 @@ export default function SessionForm() {
       </form>
     </Box>
   );
-}
+};
+
+export default SessionForm;

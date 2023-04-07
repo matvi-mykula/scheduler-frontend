@@ -57,7 +57,8 @@
   grid-template-columns: repeat(4, minmax(25%, auto));
   width: var(--max-width);
   max-width: 100%;
-  margin-bottom: 25%;
+  /* margin-bottom: 70%; */
+  bottom: 50vh;
 }
 
 .card {
@@ -308,9 +309,15 @@
   text-align: center;
   margin-bottom: 1px;
 }
+.emptySlot:hover {
+  border: 2px solid black;
+}
 .sessionCard {
   height: 90px;
   background-color: palegreen;
+}
+.sessionCard:hover {
+  border: 1px solid black;
 }
 .sessionCard > * {
   /* margin-top: 0%; */

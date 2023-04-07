@@ -1,5 +1,5 @@
 interface Client {
-  id?: string;
+  id: string;
   first_name: string;
   last_name: string;
   payment_method: 'credit' | 'cash' | 'venmo' | 'other';

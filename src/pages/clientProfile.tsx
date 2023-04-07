@@ -3,13 +3,13 @@ import { Box, Card, Text, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import SessionForm from '@/components/sessions/SessionForm';
+import SessionForm2 from './SessionForm2';
 
 export default function ClientProfile() {
   const router = useRouter();
-  console.log(router.query.id);
 
   let client: Client = {
-    id: router.query.id?.toString(),
+    id: '',
     first_name: '',
     last_name: '',
     payment_method: 'credit',
@@ -22,11 +22,17 @@ export default function ClientProfile() {
     cell: '',
     // set default values for all required properties
   };
-  Object.keys(router.query).forEach((key) => {
-    if (key in client) {
-      client[key] = router.query[key]?.toString();
-    }
-  });
+  const [loaded, setLoaded] = useState(false);
+
+  // let client: Client;
+  if (router.query) {
+    Object.keys(router.query).forEach((key) => {
+      if (key in client) {
+        client[key] = router.query[key]?.toString();
+      }
+    });
+    // setLoaded(true);
+  }
 
   const [sessionForm, showSessionForm] = useState(false);
 

@@ -66,11 +66,13 @@ const reminderMessage = (date: Date, client: Client, session: Session) => {
     session,
     'a reminder'
   );
+  console.log({ reminderContent });
   schedule.scheduleJob(reminderDate, () => {
     //this is commented out to save money
     // postTextToPhone(client.cell, reminderContent);
     session.reminder_sent = true;
     updateSession(session);
+    console.log('reminder sent');
   });
 };
 

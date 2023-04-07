@@ -11,16 +11,9 @@ import {
   Table,
   ActionIcon,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { getClients } from '@/services/clientsService';
-import { Modal } from '@mantine/core';
-// import { useNavigate } from 'react-router-dom';
-import { useRouter } from 'next/router';
-import { useDisclosure } from '@mantine/hooks';
 
 import { useEffect, useState } from 'react';
-// import Client from '@/types/user';
-// import ClientRow from '@/components/clients/ClientRow';
+
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import {
   deleteSession,
@@ -31,6 +24,7 @@ import { Session } from '@/types/session';
 import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
 import EditSession from '@/services/EditSession';
 import sortBy from 'lodash/sortBy';
+import SessionForm2 from './SessionForm2';
 
 // import { showNotification } from '@mantine/notifications';
 
@@ -140,12 +134,13 @@ export default function Sessions() {
         rowExpansion={{
           content: ({ record, collapse }) => (
             <Box>
-              <EditSession
+              <SessionForm2 startSession={record}></SessionForm2>
+              {/* <EditSession
                 session={record}
                 tableChange={tableChange}
                 setTableChange={setTableChange}
                 collapse={collapse}
-              ></EditSession>
+              ></EditSession> */}
             </Box>
           ),
         }}

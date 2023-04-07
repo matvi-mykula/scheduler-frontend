@@ -12,18 +12,15 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { getClients } from '@/services/clientsService';
-// import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 import Client from '@/types/user';
-import ClientRow from '@/components/clients/ClientRow';
 import { DataTable } from 'mantine-datatable';
 
 export default function Clients() {
   const router = useRouter();
-  // const navigate = useNavigate();
-  // how to navigate to next page onclick????
+
   const [clients, setClients] = useState<Client[]>([]);
 
   const fetchClients = async () => {

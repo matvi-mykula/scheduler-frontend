@@ -157,6 +157,7 @@ const SessionTile = (props: { session: Session }) => {
   });
 
   const [client, setClient] = useState<Client>({
+    id: '',
     first_name: '',
     last_name: '',
     payment_method: 'cash',

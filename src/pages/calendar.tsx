@@ -9,39 +9,19 @@ import { DaySchedule } from '@/components/calendar/DailySchedule';
 /// use websocket to check sessions and place sessions that are made onto
 /// the calendar as tiles
 const Calendar = () => {
+  const numbers = [0, 1, 2, 3, 4, 5, 6]; // create an array of numbers from 0 to 6
+
   return (
     <Box>
       <SimpleGrid
         cols={7}
         spacing="md"
       >
-        <Box>
-          <DaySchedule day={0}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={1}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={2}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={3}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={4}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={5}></DaySchedule>
-        </Box>
-        <Box>
-          {' '}
-          <DaySchedule day={6}></DaySchedule>
-        </Box>
+        {numbers.map((number) => (
+          <Box key={number}>
+            <DaySchedule day={number} />
+          </Box>
+        ))}
       </SimpleGrid>
     </Box>
   );
