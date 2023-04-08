@@ -234,6 +234,27 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           ]}
           {...form.getInputProps('confirmation')}
         />
+        {/* show when editing */}
+        {startSession && startSession.location && (
+          <Box>
+            <Checkbox
+              mt="md"
+              label="Canceled"
+              {...form.getInputProps('canceled', { type: 'checkbox' })}
+            />
+            <Checkbox
+              mt="md"
+              label="Confirmed"
+              {...form.getInputProps('confirmed', { type: 'checkbox' })}
+            />
+            <Checkbox
+              mt="md"
+              label="Reminder Sent"
+              {...form.getInputProps('reminder_sent', { type: 'checkbox' })}
+            />
+          </Box>
+        )}
+        <br></br>
         <Box>
           <Button type="submit">Submit</Button>
           <Button

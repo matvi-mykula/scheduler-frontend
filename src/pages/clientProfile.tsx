@@ -39,55 +39,67 @@ export default function ClientProfile() {
     <Box style={{ padding: '5%' }}>
       <Text>Client Profile</Text>
       <br></br>
+      {/* {loaded && ( */}
       <Box>
-        <Card
-          shadow="sm"
-          padding="lg"
-          radius="md"
-          withBorder
-        >
-          <Text>{client.id}</Text>
-          <Text>{`${client.first_name}  ${client.last_name}`}</Text>
-          {/* fill in perinent info and offer option to edit */}
-          <span>
-            <Text
-              style={{ display: 'inline-block' }}
-            >{`Cell : ${client.cell}`}</Text>
-            {client.text_ok && (
-              <Text style={{ display: 'inline-block' }}>{'  '}&#10003;</Text>
-            )}
-          </span>
-          <span style={{ display: 'block' }}>
-            <Text
-              style={{ display: 'inline-block' }}
-            >{`Email : ${client.email}`}</Text>
-            {client.email_ok && (
-              <Text style={{ display: 'inline-block' }}>{'  '}&#10003;</Text>
-            )}
-          </span>
-          <Text>{`Payment Method : ${client.payment_method}`}</Text>
-
-          <Text>{`Rate : ${client.rate}`}</Text>
-
-          {/* open up calendar popup and post new appt */}
-        </Card>
-      </Box>
-      <Box>
-        {sessionForm ? (
-          <SessionForm
-            client={client}
-            showSessionForm={showSessionForm}
-          ></SessionForm>
-        ) : (
-          <Button
-            onClick={() => {
-              showSessionForm(true);
-            }}
+        <Box>
+          <Card
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
           >
-            Schedule Session
-          </Button>
-        )}
+            <Text>{client.id}</Text>
+            <Text>{`${client.first_name}  ${client.last_name}`}</Text>
+            {/* fill in perinent info and offer option to edit */}
+            <span>
+              <Text
+                style={{ display: 'inline-block' }}
+              >{`Cell : ${client.cell}`}</Text>
+              {client.text_ok && (
+                <Text style={{ display: 'inline-block' }}>{'  '}&#10003;</Text>
+              )}
+            </span>
+            <span style={{ display: 'block' }}>
+              <Text
+                style={{ display: 'inline-block' }}
+              >{`Email : ${client.email}`}</Text>
+              {client.email_ok && (
+                <Text style={{ display: 'inline-block' }}>{'  '}&#10003;</Text>
+              )}
+            </span>
+            <Text>{`Payment Method : ${client.payment_method}`}</Text>
+
+            <Text>{`Rate : ${client.rate}`}</Text>
+
+            {/* open up calendar popup and post new appt */}
+          </Card>
+        </Box>
+        <Box>
+          {sessionForm ? (
+            <SessionForm2
+              startSession={{
+                client_id: client.id,
+                reminder_sent: false,
+                confirmed: false,
+                canceled: false,
+                location: '',
+                date_time: new Date(),
+              }}
+              // client={client}
+              // showSessionForm={showSessionForm}
+            ></SessionForm2>
+          ) : (
+            <Button
+              onClick={() => {
+                showSessionForm(true);
+              }}
+            >
+              Schedule Session
+            </Button>
+          )}
+        </Box>
       </Box>
+      {/* )} */}
     </Box>
   );
 }
