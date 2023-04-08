@@ -87,6 +87,7 @@ const DaySchedule = (props: DayScheduleProps) => {
       .padStart(2, '0')}`;
     dayElements.push(
       <Box
+        key={time}
         className={styles.emptySlot}
         onClick={() => {
           let time = new Date(timeBlock);
@@ -94,7 +95,7 @@ const DaySchedule = (props: DayScheduleProps) => {
           router.push({
             pathname: `/SessionForm2`,
             query: {
-              client_id: '0',
+              client_id: '',
               reminder_sent: false,
               confirmed: false,
               canceled: false,

@@ -4,27 +4,24 @@ import { Session } from '@/types/session';
 
 const getSessions = async () => {
   const response = await axios.get(`${serverPath}/api/sessions`);
-
   return response.data;
 };
 
 const getSessionsForDay = async (day: string) => {
   const response = await axios.get(`${serverPath}/api/sessions/day/${day}`);
-
   return response.data.data.rows;
 };
 
-const postSession = (sessionData: Session) => {
-  axios
-    .post(`${serverPath}/api/sessions`, {
+const postSession = async (sessionData: Session) => {
+  try {
+    const SessionResponse = await axios.post(`${serverPath}/api/sessions`, {
       sessionData,
-    })
-    .then((response) => {
-      console.log('posted');
-    })
-    .catch((err) => {
-      console.log(err);
     });
+    console.log('success : ' + SessionResponse.data.success);
+    return SessionResponse.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const deleteSession = (sessionData: Session) => {
@@ -65,6 +62,40 @@ const UTCtoPacific = (time: Date) => {
   return [`${day}, ${month} ${dayOfMonth}, ${year}, \n${oclock}`];
 };
 
+//need this to not cast out the current time
+const timeSlotValidation = (
+  session: Session | null,
+  bookedSlots: Session[]
+) => {
+  if (session && session.date_time) {
+    //if session.id
+
+    console.log('validating time');
+    for (let i = 0; i < bookedSlots.length; i++) {
+      const timeDiff = Math.abs(
+        session.date_time.getTime() - bookedSlots[i].date_time.getTime()
+      );
+      const diffInMinutes = Math.floor(timeDiff / (1000 * 60));
+      if (diffInMinutes <= 75) {
+        if (session.id === bookedSlots[i].id) {
+          //this means its the same session being edited and can therefore be
+          //rescheduled within the same block of time
+          return true;
+        }
+        console.log('timeslot to close to already scheduled session');
+        return false;
+      }
+    }
+  }
+  return true;
+};
+const isTimePast = (time: Date | null) => {
+  if (time) {
+    return time > new Date() ? true : false;
+  }
+  return false;
+};
+
 export {
   getSessions,
   getSessionsForDay,
@@ -72,4 +103,6 @@ export {
   deleteSession,
   updateSession,
   UTCtoPacific,
+  timeSlotValidation,
+  isTimePast,
 };
