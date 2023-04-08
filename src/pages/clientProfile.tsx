@@ -2,7 +2,6 @@ import Client from '@/types/user';
 import { Box, Card, Text, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import SessionForm from '@/components/sessions/SessionForm';
 import SessionForm2 from './SessionForm2';
 
 export default function ClientProfile() {

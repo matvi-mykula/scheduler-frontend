@@ -1,19 +1,5 @@
-import {
-  Button,
-  Input,
-  Box,
-  Group,
-  TextInput,
-  Checkbox,
-  Select,
-  NumberInput,
-  Text,
-  Table,
-  ActionIcon,
-} from '@mantine/core';
-
+import { Box, Text, ActionIcon } from '@mantine/core';
 import { useEffect, useState } from 'react';
-
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import {
   deleteSession,
@@ -21,12 +7,9 @@ import {
   UTCtoPacific,
 } from '@/services/sessionsService';
 import { Session } from '@/types/session';
-import { IconEdit, IconTrash, IconTrashX } from '@tabler/icons-react';
-import EditSession from '@/services/EditSession';
+import { IconTrash } from '@tabler/icons-react';
 import sortBy from 'lodash/sortBy';
 import SessionForm2 from './SessionForm2';
-
-// import { showNotification } from '@mantine/notifications';
 
 export default function Sessions() {
   const [sessions, setSessions] = useState<Session[]>([]);

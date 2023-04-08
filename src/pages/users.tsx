@@ -14,11 +14,11 @@ import { postClient } from '@/services/clientsService';
 function User() {
   const form = useForm({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      paymentMethod: 'cash',
-      textOK: false,
-      emailOK: false,
+      first_name: '',
+      last_name: '',
+      payment_method: 'cash',
+      text_ok: false,
+      email_ok: false,
       email: '',
       cell: '',
       rate: 0,
@@ -46,13 +46,13 @@ function User() {
           withAsterisk
           label="First Name"
           placeholder="first name"
-          {...form.getInputProps('firstName')}
+          {...form.getInputProps('first_name')}
         />
         <TextInput
           withAsterisk
           label="Last Name"
           placeholder="last name"
-          {...form.getInputProps('lastName')}
+          {...form.getInputProps('last_name')}
         />
         <Select
           label="payment method"
@@ -63,16 +63,17 @@ function User() {
             { value: 'venmo', label: 'Venmo' },
             { value: 'other', label: 'Other' },
           ]}
+          {...form.getInputProps('payment_method', { type: 'checkbox' })}
         />
         <Checkbox
           mt="md"
           label="TextOK?"
-          {...form.getInputProps('textOK', { type: 'checkbox' })}
+          {...form.getInputProps('text_ok', { type: 'checkbox' })}
         />
         <Checkbox
           mt="md"
           label="EmailOK?"
-          {...form.getInputProps('emailOK', { type: 'checkbox' })}
+          {...form.getInputProps('email_ok', { type: 'checkbox' })}
         />
         <TextInput
           withAsterisk
