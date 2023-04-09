@@ -13,7 +13,7 @@ function Home() {
           <p>Home of Matvi Plays</p>
         </div>
 
-        <div className={styles.center}>hero image</div>
+        {/* <div className={styles.center}>hero image</div> */}
 
         <div className={styles.grid}>
           <Link
