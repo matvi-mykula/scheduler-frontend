@@ -111,11 +111,7 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           : values.client_id.length < 1
           ? 'Not a valid client'
           : null,
-      // date_time: !timeSlotValidation(values, unavailableTimes)
-      //   ? 'This time is booked.'
-      //   : !isTimePast(values.date_time)
-      //   ? 'That time is in the past.'
-      //   : null,
+
       location:
         values.location === undefined
           ? 'location required'
@@ -131,18 +127,12 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
   const handleSubmit = async (formData: any) => {
     const newSession = {
       ...formData,
-      date_time: dateValue,
+      // date_time: dateValue,
     };
-
+    console.log(newSession.date_time);
     //// how do i know whether to post or put??
     /// location data should only be initially passed to form if it is editing an already made session
     try {
-      //this isnt happening
-      if (newSession.date_time in unavailableTimes) {
-        alert('That time slot is booked!');
-        throw new Error('exiting try block');
-      }
-
       let SessionResponse;
       startSession && startSession.location
         ? (SessionResponse = await updateSession(newSession)) //need to validate this still
@@ -218,10 +208,7 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           label="Pick date and time"
           placeholder="Pick date and time"
           maw={400}
-          // defaultValue={dateValue}
           value={dateValue}
-          // {...form.getInputProps('date_time')}
-          // onChange={() => setDateValue}
           onChange={(e) => {
             if (e === null) {
               setDateValue(new Date());

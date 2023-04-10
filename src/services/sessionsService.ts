@@ -63,17 +63,21 @@ const UTCtoPacific = (time: Date) => {
 };
 
 //need this to not cast out the current time
-const timeSlotValidation = (
-  session: Session | null,
-  bookedSlots: Session[]
-) => {
+const timeSlotValidation = (session: Session, bookedSlots: Session[]) => {
+  if (!bookedSlots.length) {
+    // checks if there are any booked slots in the day
+    return true;
+  }
+
   if (session && session.date_time) {
     //if session.id
 
     console.log('validating time');
     for (let i = 0; i < bookedSlots.length; i++) {
+      bookedSlots[i].date_time;
       const timeDiff = Math.abs(
-        session.date_time.getTime() - bookedSlots[i].date_time.getTime()
+        session.date_time.getTime() -
+          new Date(bookedSlots[i].date_time).getTime()
       );
       const diffInMinutes = Math.floor(timeDiff / (1000 * 60));
       if (diffInMinutes <= 75) {

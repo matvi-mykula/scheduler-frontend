@@ -86,35 +86,72 @@ const DaySchedule = (props: DayScheduleProps) => {
     );
   }
 
-  timeBlocks.forEach((timeBlock) => {
-    let time = `${timeBlock.getHours().toString()}:${timeBlock
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`;
-    dayElements.push(
-      <Box
-        key={time}
-        className={styles.emptySlot}
-        onClick={() => {
-          let time = new Date(timeBlock);
-          console.log(typeof time);
-          router.push({
-            pathname: `/SessionForm2`,
-            query: {
-              client_id: '',
-              reminder_sent: false,
-              confirmed: false,
-              canceled: false,
-              location: 'Montclair Park',
-              date_time: time.toString(),
-            },
-          });
-        }}
-      >
-        {time}
-      </Box>
-    );
-  });
+  loaded &&
+    timeBlocks.forEach((timeBlock) => {
+      console.log(timeBlock);
+      console.log(sessions);
+      let time = `${timeBlock.getHours().toString()}:${timeBlock
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`;
+
+      if (
+        timeSlotValidation(
+          {
+            client_id: '',
+            reminder_sent: false,
+            confirmed: false,
+            canceled: false,
+            location: '',
+            date_time: new Date(timeBlock),
+          } as Session,
+          sessions as Session[]
+        )
+      ) {
+        dayElements.push(
+          <Box
+            key={time}
+            className={styles.emptySlot}
+            onClick={() => {
+              let time = new Date(timeBlock);
+              console.log(typeof time);
+              router.push({
+                pathname: `/SessionForm2`,
+                query: {
+                  client_id: '',
+                  reminder_sent: false,
+                  confirmed: false,
+                  canceled: false,
+                  location: 'Montclair Park',
+                  date_time: time.toString(),
+                },
+              });
+            }}
+          >
+            {time}
+          </Box>
+        );
+      } else {
+        dayElements.push(
+          <Box
+            className={styles.unavailableSlot}
+            onClick={() => {
+              notifications.show({
+                autoClose: 5000,
+                color: 'red',
+                icon: <IconX />,
+
+                title: 'Unavailable Time',
+                message: 'This time is unavailable!!',
+              });
+              console.log('unavailable');
+            }}
+          >
+            {time}
+          </Box>
+        );
+      }
+    });
 
   if (sessions) {
     sessions.forEach((session: Session) => {
@@ -210,18 +247,4 @@ const SessionTile = (props: { session: Session }) => {
   );
 };
 
-// const newSessionAtTime = (time: string) => {
-
-//   router.push({
-//     pathname: `/sessionForm2`,
-//     query: {
-//       client_id: '0',
-//       reminder_sent: false,
-//       confirmed: false,
-//       canceled: false,
-//       location: 'Montclair Park',
-//       date_time: time,
-//     },
-//   });
-// };
 export { DaySchedule };
