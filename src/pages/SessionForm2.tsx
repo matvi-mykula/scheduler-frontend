@@ -20,6 +20,7 @@ import {
 import { Session } from '@/types/session';
 import { useRouter } from 'next/router';
 import { getClients } from '@/services/clientsService';
+import { notifications } from '@mantine/notifications';
 dayjs.extend(tz);
 
 ///// --------- the idea here is to make a single reusable
@@ -110,11 +111,11 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           : values.client_id.length < 1
           ? 'Not a valid client'
           : null,
-      date_time: !timeSlotValidation(values, unavailableTimes)
-        ? 'This time is booked.'
-        : !isTimePast(values.date_time)
-        ? 'That time is in the past.'
-        : null,
+      // date_time: !timeSlotValidation(values, unavailableTimes)
+      //   ? 'This time is booked.'
+      //   : !isTimePast(values.date_time)
+      //   ? 'That time is in the past.'
+      //   : null,
       location:
         values.location === undefined
           ? 'location required'
@@ -153,7 +154,15 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
         router.push({
           pathname: `/calendar`,
         });
+        notifications.show({
+          title: 'New Session',
+          message: `You have scheduled a session with (clientnamehere) at ${newSession.location}`,
+        });
       } else {
+        notifications.show({
+          title: 'Default notification',
+          message: 'bad',
+        });
         console.log('success: ' + SessionResponse.success);
       }
     } catch (error) {
@@ -166,7 +175,7 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
     /// must move all sending messages outside form
   };
 
-  return (
+  return unavailableTimes && unavailableTimes.length ? (
     <Box style={{ overflow: 'visible' }}>
       <form
         onSubmit={form.onSubmit((values) => {
@@ -204,13 +213,14 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           }}
         />
         <DateTimePicker
-          error="Not a valid time or that time slot is already scheduled."
+          error={timeSlotValidation(form.values, unavailableTimes)}
           valueFormat="DD MMM YYYY hh:mm A"
           label="Pick date and time"
           placeholder="Pick date and time"
           maw={400}
-          defaultValue={dateValue}
+          // defaultValue={dateValue}
           value={dateValue}
+          // {...form.getInputProps('date_time')}
           // onChange={() => setDateValue}
           onChange={(e) => {
             if (e === null) {
@@ -269,6 +279,8 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
         </Box>
       </form>
     </Box>
+  ) : (
+    <></>
   );
 };
 

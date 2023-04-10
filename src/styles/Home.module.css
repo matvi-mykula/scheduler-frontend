@@ -313,6 +313,14 @@
 .emptySlot:hover {
   border: 2px solid black;
 }
+.unavailableSlot {
+  background-color: lightgrey;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 1px;
+}
 .sessionCard {
   height: 90px;
   background-color: palegreen;

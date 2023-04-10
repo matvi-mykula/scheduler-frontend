@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css';
 import { AppShell, Navbar, Header, Box, Button, Text } from '@mantine/core';
 import { Router, useRouter } from 'next/router';
 import Link from 'next/link';
+import { Notifications } from '@mantine/notifications';
 
 const inter = Inter({ subsets: ['latin'] });
 interface Props {
@@ -62,6 +63,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             href="/favicon.ico"
           />
         </Head>
+        <Notifications />
+
         <main>{children}</main>
       </AppShell>
     </>

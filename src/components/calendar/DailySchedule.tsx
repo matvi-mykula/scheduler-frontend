@@ -4,9 +4,14 @@ import { Session } from '@/types/session';
 import { useEffect, useState } from 'react';
 import Client from '@/types/user';
 import { getClient } from '../../services/clientsService';
-import { getSessionsForDay } from '../../services/sessionsService';
+import {
+  getSessionsForDay,
+  timeSlotValidation,
+} from '../../services/sessionsService';
 import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
+import { notifications } from '@mantine/notifications';
+import { IconX } from '@tabler/icons-react';
 
 interface DayScheduleProps {
   day: number;
@@ -34,6 +39,7 @@ const DaySchedule = (props: DayScheduleProps) => {
     }
 
     fetchData();
+    setLoaded(true);
   }, []);
 
   //// ---- iterate through day by 30 minute sections creating empty blocks
