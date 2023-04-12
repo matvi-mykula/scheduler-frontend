@@ -46,10 +46,12 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
     : (now = new Date());
 
   const [unavailableTimes, setUnavailableTimes] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const fetchUnavailableTimes = async () => {
     const response = await getSessions();
     // const bookedTimes: any = [];
     const { data, success } = response;
+    console.log(response);
     if (success) {
       // data.forEach((session: Session) => {
       //   bookedTimes.push(new Date(session.date_time));
@@ -84,6 +86,7 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
   useEffect(() => {
     fetchClients();
     fetchUnavailableTimes();
+    setLoaded(true);
     console.log({ unavailableTimes });
   }, []);
 
@@ -171,7 +174,8 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
       <Box>
         {oldSession.client_id && loaded && (
           <Text>
-            Session for {possibleClients[Number(oldSession.client_id)].label}
+            Session for{' '}
+            {possibleClients[Number(oldSession.client_id) - 1].label}
           </Text>
         )}
       </Box>

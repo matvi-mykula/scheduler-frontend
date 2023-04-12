@@ -86,7 +86,6 @@ const timeSlotValidation = (session: Session, bookedSlots: Session[]) => {
           //rescheduled within the same block of time
           return true;
         }
-        console.log('timeslot to close to already scheduled session');
         return false;
       }
     }
