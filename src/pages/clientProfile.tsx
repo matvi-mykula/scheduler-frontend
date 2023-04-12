@@ -85,8 +85,6 @@ export default function ClientProfile() {
                 location: '',
                 date_time: new Date(),
               }}
-              // client={client}
-              // showSessionForm={showSessionForm}
             ></SessionForm2>
           ) : (
             <Button

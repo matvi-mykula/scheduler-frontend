@@ -1,5 +1,5 @@
 import sessions from '@/pages/sessions';
-import { Box, Paper, Text } from '@mantine/core';
+import { ActionIcon, Box, Paper, Text } from '@mantine/core';
 import { Session } from '@/types/session';
 import { useEffect, useState } from 'react';
 import Client from '@/types/user';
@@ -25,7 +25,10 @@ const DaySchedule = (props: DayScheduleProps) => {
   today.setDate(today.getDate() + props.day);
   const dayOfWeek = weekdays[today.getDay()];
   const day = today.getDate();
-  const month = today.getMonth() + 1; // add 1 because January is 0
+  const month = (today.getMonth() + 1).toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+  });
+
   const year = today.getFullYear();
   const fullDay = `${year}-${month}-${day}`;
 
@@ -34,7 +37,9 @@ const DaySchedule = (props: DayScheduleProps) => {
 
   useEffect(() => {
     async function fetchData() {
+      /// need leading zero on month
       const sessionsForDay = await getSessionsForDay(fullDay);
+
       setSessions(sessionsForDay);
     }
 
@@ -114,7 +119,6 @@ const DaySchedule = (props: DayScheduleProps) => {
             className={styles.emptySlot}
             onClick={() => {
               let time = new Date(timeBlock);
-              console.log(typeof time);
               router.push({
                 pathname: `/SessionForm2`,
                 query: {
@@ -134,6 +138,7 @@ const DaySchedule = (props: DayScheduleProps) => {
       } else {
         dayElements.push(
           <Box
+            key={time}
             className={styles.unavailableSlot}
             onClick={() => {
               notifications.show({
@@ -164,7 +169,33 @@ const DaySchedule = (props: DayScheduleProps) => {
             <Box
               key={session.id}
               onClick={() => {
-                console.log({ session });
+                notifications.show({
+                  autoClose: 5000,
+                  color: 'red',
+                  icon: (
+                    <ActionIcon
+                      variant="default"
+                      onClick={() => {
+                        router.push({
+                          pathname: `/SessionForm2`,
+                          query: {
+                            id: session.id,
+                            client_id: session.client_id,
+                            reminder_sent: session.reminder_sent,
+                            confirmed: session.confirmed,
+                            canceled: session.canceled,
+                            location: session.location,
+                            date_time: session.date_time.toString(),
+                          },
+                        });
+                      }}
+                    ></ActionIcon>
+                  ),
+
+                  title: 'Unavailable Time',
+                  message: 'This time has a scheduled',
+                });
+                console.log('unavailable');
               }}
             >
               <SessionTile session={session}></SessionTile>
@@ -219,7 +250,7 @@ const SessionTile = (props: { session: Session }) => {
     async function fetchData() {
       const aClient = await getClient(props.session.client_id);
 
-      setClient(aClient.data.rows[0]);
+      setClient(aClient.data);
     }
 
     fetchData();

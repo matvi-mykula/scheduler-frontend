@@ -71,6 +71,7 @@ const reminderMessage = (date: Date, client: Client, session: Session) => {
     //this is commented out to save money
     // postTextToPhone(client.cell, reminderContent);
     session.reminder_sent = true;
+    console.log({ session });
     updateSession(session);
     console.log('reminder sent');
   });

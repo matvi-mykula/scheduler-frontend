@@ -9,7 +9,7 @@ const getSessions = async () => {
 
 const getSessionsForDay = async (day: string) => {
   const response = await axios.get(`${serverPath}/api/sessions/day/${day}`);
-  return response.data.data.rows;
+  return response.data.success ? response.data.data : [];
 };
 
 const postSession = async (sessionData: Session) => {
@@ -64,7 +64,8 @@ const UTCtoPacific = (time: Date) => {
 
 //need this to not cast out the current time
 const timeSlotValidation = (session: Session, bookedSlots: Session[]) => {
-  if (!bookedSlots.length) {
+  // console.log({ bookedSlots });
+  if (!bookedSlots || bookedSlots.length === 0) {
     // checks if there are any booked slots in the day
     return true;
   }
@@ -72,7 +73,6 @@ const timeSlotValidation = (session: Session, bookedSlots: Session[]) => {
   if (session && session.date_time) {
     //if session.id
 
-    console.log('validating time');
     for (let i = 0; i < bookedSlots.length; i++) {
       bookedSlots[i].date_time;
       const timeDiff = Math.abs(

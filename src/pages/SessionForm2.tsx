@@ -11,7 +11,7 @@ import {
 } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker, DateValue } from '@mantine/dates';
-import { Box, TextInput, Select, Checkbox, Button } from '@mantine/core';
+import { Box, TextInput, Select, Checkbox, Button, Text } from '@mantine/core';
 import {
   postTextToPhone,
   reminderMessage,
@@ -32,6 +32,7 @@ interface Props {
 }
 
 const SessionForm: React.FC<Props> = ({ startSession }) => {
+  console.log({ startSession });
   const router = useRouter();
 
   // if a props is passed use that as the starting values for the form if not then start with query passed in
@@ -165,109 +166,121 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
     /// must move all sending messages outside form
   };
 
-  return unavailableTimes && unavailableTimes.length ? (
-    <Box style={{ overflow: 'visible' }}>
-      <form
-        onSubmit={form.onSubmit((values) => {
-          values.date_time = dateValue;
-          console.log(values);
-          handleSubmit(values);
-          // showSessionForm(false);
-        })}
-      >
-        {oldSession.client_id === '' && (
-          <Select
-            label="Client"
-            data={possibleClients}
-            placeholder="Select Client"
-            nothingFound="Nothing found"
-            searchable
-            // creatable this is not how clients should be created
-            getCreateLabel={(query) => `+ Create ${query}`}
-            {...form.getInputProps('client_id')}
-          />
+  return (
+    <Box>
+      <Box>
+        {oldSession.client_id && loaded && (
+          <Text>
+            Session for {possibleClients[Number(oldSession.client_id)].label}
+          </Text>
         )}
-        <Select
-          label="Location"
-          data={locationData}
-          placeholder="Select Location"
-          nothingFound="Nothing found"
-          searchable
-          creatable
-          getCreateLabel={(query) => `+ Create ${query}`}
-          {...form.getInputProps('location')}
-          onCreate={(query) => {
-            const item = { value: query, label: query };
-            setLocationData((current) => [...current, item]);
-            return item;
-          }}
-        />
-        <DateTimePicker
-          error={timeSlotValidation(form.values, unavailableTimes)}
-          valueFormat="DD MMM YYYY hh:mm A"
-          label="Pick date and time"
-          placeholder="Pick date and time"
-          maw={400}
-          value={dateValue}
-          onChange={(e) => {
-            if (e === null) {
-              setDateValue(new Date());
-            } else {
-              setDateValue(e);
-            }
-          }}
-          style={{ overflow: 'visible' }}
-        />
-        {/* remove when editing */}
-        <Select
-          label="Send Confirmation"
-          placeholder="Pick one"
-          defaultValue={'both'}
-          data={[
-            { value: '', label: 'None' },
-            { value: 'text', label: 'Text' },
-            { value: 'email', label: 'Email' },
-            { value: 'both', label: 'Both' },
-          ]}
-          {...form.getInputProps('confirmation')}
-        />
-        {/* show when editing */}
-        {startSession && startSession.location && (
-          <Box>
-            <Checkbox
-              mt="md"
-              label="Canceled"
-              {...form.getInputProps('canceled', { type: 'checkbox' })}
-            />
-            <Checkbox
-              mt="md"
-              label="Confirmed"
-              {...form.getInputProps('confirmed', { type: 'checkbox' })}
-            />
-            <Checkbox
-              mt="md"
-              label="Reminder Sent"
-              {...form.getInputProps('reminder_sent', { type: 'checkbox' })}
-            />
-          </Box>
-        )}
-        <br></br>
-        <Box>
-          <Button type="submit">Submit</Button>
-          <Button
-            type="button"
-            onClick={() => {
-              form.reset();
-            }}
+      </Box>
+
+      {loaded ? (
+        <Box style={{ overflow: 'visible' }}>
+          <form
+            onSubmit={form.onSubmit((values) => {
+              values.date_time = dateValue;
+              console.log(values);
+              handleSubmit(values);
+              // showSessionForm(false);
+            })}
           >
-            {' '}
-            Cancel
-          </Button>
+            {oldSession.client_id === '' && (
+              <Select
+                label="Client"
+                data={possibleClients}
+                placeholder="Select Client"
+                nothingFound="Nothing found"
+                searchable
+                // creatable this is not how clients should be created
+                getCreateLabel={(query) => `+ Create ${query}`}
+                {...form.getInputProps('client_id')}
+              />
+            )}
+            <Select
+              label="Location"
+              data={locationData}
+              placeholder="Select Location"
+              nothingFound="Nothing found"
+              searchable
+              creatable
+              getCreateLabel={(query) => `+ Create ${query}`}
+              {...form.getInputProps('location')}
+              onCreate={(query) => {
+                const item = { value: query, label: query };
+                setLocationData((current) => [...current, item]);
+                return item;
+              }}
+            />
+            <DateTimePicker
+              error={timeSlotValidation(form.values, unavailableTimes)}
+              valueFormat="DD MMM YYYY hh:mm A"
+              label="Pick date and time"
+              placeholder="Pick date and time"
+              maw={400}
+              value={dateValue}
+              onChange={(e) => {
+                if (e === null) {
+                  setDateValue(new Date());
+                } else {
+                  setDateValue(e);
+                }
+              }}
+              style={{ overflow: 'visible' }}
+            />
+            {/* remove when editing */}
+            <Select
+              label="Send Confirmation"
+              placeholder="Pick one"
+              defaultValue={'both'}
+              data={[
+                { value: '', label: 'None' },
+                { value: 'text', label: 'Text' },
+                { value: 'email', label: 'Email' },
+                { value: 'both', label: 'Both' },
+              ]}
+              {...form.getInputProps('confirmation')}
+            />
+            {/* show when editing */}
+            {startSession && startSession.location && (
+              <Box>
+                <Checkbox
+                  mt="md"
+                  label="Canceled"
+                  {...form.getInputProps('canceled', { type: 'checkbox' })}
+                />
+                <Checkbox
+                  mt="md"
+                  label="Confirmed"
+                  {...form.getInputProps('confirmed', { type: 'checkbox' })}
+                />
+                <Checkbox
+                  mt="md"
+                  label="Reminder Sent"
+                  {...form.getInputProps('reminder_sent', { type: 'checkbox' })}
+                />
+              </Box>
+            )}
+            <br></br>
+            <Box>
+              <Button type="submit">Submit</Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  form.reset();
+                }}
+              >
+                {' '}
+                Cancel
+              </Button>
+            </Box>
+          </form>
         </Box>
-      </form>
+      ) : (
+        <></>
+      )}
     </Box>
-  ) : (
-    <></>
   );
 };
 
