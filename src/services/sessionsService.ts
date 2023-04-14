@@ -104,6 +104,24 @@ const isTimePast = (time: Date | null) => {
   return false;
 };
 
+////// show notification when clicking session on calendar
+
+const handleRouter = (session: Session) => {
+  router.push({
+    pathname: `/SessionForm2`,
+    query: {
+      id: session.id,
+      client_id: session.client_id,
+      reminder_sent: session.reminder_sent,
+      confirmed: session.confirmed,
+      canceled: session.canceled,
+      location: session.location,
+      date_time: session.date_time.toString(),
+      edit: true,
+    },
+  });
+};
+
 export {
   getSessions,
   getSessionsForDay,

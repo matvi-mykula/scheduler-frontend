@@ -85,6 +85,7 @@ export default function ClientProfile() {
                 location: '',
                 date_time: new Date(),
               }}
+              edit={true}
             ></SessionForm2>
           ) : (
             <Button

@@ -272,6 +272,9 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
                 type="button"
                 onClick={() => {
                   form.reset();
+                  router.push({
+                    pathname: `/calendar`,
+                  });
                 }}
               >
                 {' '}
