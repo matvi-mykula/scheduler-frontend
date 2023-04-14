@@ -13,6 +13,8 @@ const getSessionsForDay = async (day: string) => {
 };
 
 const postSession = async (sessionData: Session) => {
+  console.log('posting');
+  console.log(sessionData);
   try {
     const SessionResponse = await axios.post(`${serverPath}/api/sessions`, {
       sessionData,
@@ -35,15 +37,18 @@ const deleteSession = (sessionData: Session) => {
     });
 };
 
-const updateSession = (sessionData: Session) => {
-  axios
-    .put(`${serverPath}/api/sessions`, { data: sessionData })
-    .then((response) => {
-      console.log('updated');
-    })
-    .catch((err) => {
-      console.log(err);
+const updateSession = async (sessionData: Session) => {
+  console.log(sessionData);
+
+  try {
+    const UpdateResponse = await axios.put(`${serverPath}/api/sessions`, {
+      data: sessionData,
     });
+    console.log(`success : ${UpdateResponse.data.success}`);
+    return UpdateResponse.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const UTCtoPacific = (time: Date) => {

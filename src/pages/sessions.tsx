@@ -117,13 +117,10 @@ export default function Sessions() {
         rowExpansion={{
           content: ({ record, collapse }) => (
             <Box>
-              <SessionForm2 startSession={record}></SessionForm2>
-              {/* <EditSession
-                session={record}
-                tableChange={tableChange}
-                setTableChange={setTableChange}
-                collapse={collapse}
-              ></EditSession> */}
+              <SessionForm2
+                startSession={record}
+                edit={true}
+              ></SessionForm2>
             </Box>
           ),
         }}

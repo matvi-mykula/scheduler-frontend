@@ -193,7 +193,7 @@ const DaySchedule = (props: DayScheduleProps) => {
                   ),
 
                   title: 'Unavailable Time',
-                  message: 'This time has a scheduled',
+                  message: '<<-- Click to edit session',
                 });
                 console.log('unavailable');
               }}

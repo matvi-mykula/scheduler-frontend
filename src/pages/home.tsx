@@ -37,7 +37,7 @@ function Home() {
             className={styles.card}
           >
             <h2 className={inter.className}>
-              Create New Client <span>-&gt;</span>
+              Create Client <span>-&gt;</span>
             </h2>
           </Link>
           <Link

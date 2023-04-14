@@ -29,17 +29,21 @@ dayjs.extend(tz);
 
 interface Props {
   startSession?: Session;
+  edit?: boolean;
 }
 
-const SessionForm: React.FC<Props> = ({ startSession }) => {
-  console.log({ startSession });
+const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
+  // console.log({ startSession });
   const router = useRouter();
 
   // if a props is passed use that as the starting values for the form if not then start with query passed in
-  let oldSession;
+  let oldSession: Session;
   startSession
     ? (oldSession = startSession)
     : (oldSession = router.query as unknown as Session);
+  console.log({ oldSession });
+  console.log(router.query.edit);
+
   let now;
   oldSession.date_time
     ? (now = new Date(oldSession.date_time.toString()))
@@ -51,7 +55,7 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
     const response = await getSessions();
     // const bookedTimes: any = [];
     const { data, success } = response;
-    console.log(response);
+    console.log('getting unavailable times:  ' + response);
     if (success) {
       // data.forEach((session: Session) => {
       //   bookedTimes.push(new Date(session.date_time));
@@ -131,20 +135,18 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
   const handleSubmit = async (formData: any) => {
     const newSession = {
       ...formData,
-      // date_time: dateValue,
     };
-    console.log(newSession.date_time);
     //// how do i know whether to post or put??
     /// location data should only be initially passed to form if it is editing an already made session
     try {
       let SessionResponse;
-      startSession && startSession.location
+      console.log({ edit });
+      edit || router.query.edit // pass edit=true if this is an edit form
         ? (SessionResponse = await updateSession(newSession)) //need to validate this still
         : (SessionResponse = await postSession(newSession));
-
-      console.log({ SessionResponse });
-
+      console.log(SessionResponse);
       if (SessionResponse.success) {
+        console.log('SUCCESS');
         router.push({
           pathname: `/calendar`,
         });
@@ -162,8 +164,6 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
     } catch (error) {
       console.error(error);
     }
-    // if (SessionResponse.data.success)
-    // const postSessionResponse = await postSession(newSession);
 
     ///
     /// must move all sending messages outside form
@@ -172,12 +172,12 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
   return (
     <Box>
       <Box>
-        {oldSession.client_id && loaded && (
+        {/* {oldSession.client_id && loaded && (
           <Text>
             Session for{' '}
             {possibleClients[Number(oldSession.client_id) - 1].label}
           </Text>
-        )}
+        )} */}
       </Box>
 
       {loaded ? (
@@ -185,7 +185,6 @@ const SessionForm: React.FC<Props> = ({ startSession }) => {
           <form
             onSubmit={form.onSubmit((values) => {
               values.date_time = dateValue;
-              console.log(values);
               handleSubmit(values);
               // showSessionForm(false);
             })}
