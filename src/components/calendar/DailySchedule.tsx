@@ -5,19 +5,27 @@ import { useEffect, useState } from 'react';
 import Client from '@/types/user';
 import { getClient } from '../../services/clientsService';
 import {
-  getSessionsForDay,
+  handleRouter,
   timeSlotValidation,
 } from '../../services/sessionsService';
 import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
+import { io } from 'socket.io-client';
+import SessionTile from './SessionTile';
 
 interface DayScheduleProps {
   day: number;
+  sessions: Session[];
 }
+// const socket = io('http://localhost:3001', { autoConnect: false });
+// const socketEmitter = () => {
+//   socket.emit('calendar:updated');
+// };
 
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 const DaySchedule = (props: DayScheduleProps) => {
   const router = useRouter();
 
@@ -73,75 +81,72 @@ const DaySchedule = (props: DayScheduleProps) => {
     );
   }
 
-  loaded &&
-    timeBlocks.forEach((timeBlock) => {
-      console.log(timeBlock);
-      console.log(sessions);
-      let time = `${timeBlock.getHours().toString()}:${timeBlock
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}`;
+  timeBlocks.forEach((timeBlock) => {
+    let time = `${timeBlock.getHours().toString()}:${timeBlock
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
 
-      if (
-        timeSlotValidation(
-          {
-            client_id: '',
-            reminder_sent: false,
-            confirmed: false,
-            canceled: false,
-            location: '',
-            date_time: new Date(timeBlock),
-          } as Session,
-          sessions as Session[]
-        )
-      ) {
-        dayElements.push(
-          <Box
-            key={time}
-            className={styles.emptySlot}
-            onClick={() => {
-              let time = new Date(timeBlock);
-              router.push({
-                pathname: `/SessionForm2`,
-                query: {
-                  client_id: '',
-                  reminder_sent: false,
-                  confirmed: false,
-                  canceled: false,
-                  location: 'Montclair Park',
-                  date_time: time.toString(),
-                },
-              });
-            }}
-          >
-            {time}
-          </Box>
-        );
-      } else {
-        dayElements.push(
-          <Box
-            key={time}
-            className={styles.unavailableSlot}
-            onClick={() => {
-              notifications.show({
-                autoClose: 5000,
-                color: 'red',
-                icon: <IconX />,
+    if (
+      timeSlotValidation(
+        {
+          client_id: '',
+          reminder_sent: false,
+          confirmed: false,
+          canceled: false,
+          location: '',
+          date_time: new Date(timeBlock),
+        } as Session,
+        props.sessions as Session[]
+      )
+    ) {
+      dayElements.push(
+        <Box
+          key={time}
+          className={styles.emptySlot}
+          onClick={() => {
+            let time = new Date(timeBlock);
+            router.push({
+              pathname: `/SessionForm2`,
+              query: {
+                client_id: '',
+                reminder_sent: false,
+                confirmed: false,
+                canceled: false,
+                location: 'Montclair Park',
+                date_time: time.toString(),
+              },
+            });
+          }}
+        >
+          {time}
+        </Box>
+      );
+    } else {
+      dayElements.push(
+        <Box
+          key={time}
+          className={styles.unavailableSlot}
+          onClick={() => {
+            notifications.show({
+              autoClose: 5000,
+              color: 'red',
+              icon: <IconX />,
 
-                title: 'Unavailable Time',
-                message: 'This time is unavailable!!',
-              });
-              console.log('unavailable');
-            }}
-          >
-            {time}
-          </Box>
-        );
-      }
-    });
+              title: 'Unavailable Time',
+              message: 'This time is unavailable!!',
+            });
+            console.log('unavailable');
+          }}
+        >
+          {time}
+        </Box>
+      );
+    }
+  });
 
-  if (sessions) {
-    sessions.forEach((session: Session) => {
+  if (props.sessions) {
+    props.sessions.forEach((session: Session) => {
       const eventTime = new Date(session.date_time);
       let isWithinTimeBlock = false;
       for (let i = 0; i < timeBlocks.length - 1; i += 1) {
@@ -195,4 +200,4 @@ const DaySchedule = (props: DayScheduleProps) => {
   );
 };
 
-export { DaySchedule, socketEmitter };
+export { DaySchedule };

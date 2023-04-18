@@ -8,6 +8,9 @@ import {
   updateSession,
   timeSlotValidation,
   isTimePast,
+  socketEmitter,
+  // socketEmitter,
+  // socketEmitter,
 } from '@/services/sessionsService';
 import Client from '@/types/user';
 import { DateTimePicker, DateValue } from '@mantine/dates';
@@ -152,6 +155,11 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
           title: 'New Session',
           message: `You have scheduled a session with (clientnamehere) at ${newSession.location}`,
         });
+        /////----------------------
+        // socket.emit('calendar:updated');
+
+        socketEmitter(); /// is this where this should go?
+        ///////-------------------------------------------
       } else {
         notifications.show({
           title: 'Default notification',

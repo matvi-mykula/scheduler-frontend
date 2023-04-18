@@ -75,6 +75,7 @@ export default function Sessions() {
                         console.log(row);
                         deleteSession(row);
                         setTableChange(!tableChange);
+                        // socketEmitter();
                       }
                       console.log('delete entry');
                     }}
