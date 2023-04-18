@@ -29,24 +29,6 @@ const DaySchedule = (props: DayScheduleProps) => {
     minimumIntegerDigits: 2,
   });
 
-  const year = today.getFullYear();
-  const fullDay = `${year}-${month}-${day}`;
-
-  const [sessions, setSessions] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      /// need leading zero on month
-      const sessionsForDay = await getSessionsForDay(fullDay);
-
-      setSessions(sessionsForDay);
-    }
-
-    fetchData();
-    setLoaded(true);
-  }, []);
-
   //// ---- iterate through day by 30 minute sections creating empty blocks
   const startTime = new Date(
     today.getFullYear(),

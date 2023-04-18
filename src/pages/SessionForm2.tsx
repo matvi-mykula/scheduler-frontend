@@ -41,8 +41,6 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
   startSession
     ? (oldSession = startSession)
     : (oldSession = router.query as unknown as Session);
-  console.log({ oldSession });
-  console.log(router.query.edit);
 
   let now;
   oldSession.date_time
@@ -91,7 +89,6 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
     fetchClients();
     fetchUnavailableTimes();
     setLoaded(true);
-    console.log({ unavailableTimes });
   }, []);
 
   // update possibleClients to get from server all current clients
@@ -135,6 +132,7 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
   const handleSubmit = async (formData: any) => {
     const newSession = {
       ...formData,
+      date_time: dateValue.toISOString(),
     };
     //// how do i know whether to post or put??
     /// location data should only be initially passed to form if it is editing an already made session

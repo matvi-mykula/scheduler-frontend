@@ -26,6 +26,20 @@ const postSession = async (sessionData: Session) => {
   }
 };
 
+const updateSession = async (sessionData: Session) => {
+  console.log('putting');
+  console.log(sessionData);
+
+  try {
+    const UpdateResponse = await axios.put(`${serverPath}/api/sessions`, {
+      sessionData,
+    });
+    console.log(`success : ${UpdateResponse.data.success}`);
+    return UpdateResponse.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
 const deleteSession = (sessionData: Session) => {
   axios
     .delete(`${serverPath}/api/sessions`, { data: sessionData })
@@ -35,20 +49,6 @@ const deleteSession = (sessionData: Session) => {
     .catch((err) => {
       console.log(err);
     });
-};
-
-const updateSession = async (sessionData: Session) => {
-  console.log(sessionData);
-
-  try {
-    const UpdateResponse = await axios.put(`${serverPath}/api/sessions`, {
-      data: sessionData,
-    });
-    console.log(`success : ${UpdateResponse.data.success}`);
-    return UpdateResponse.data;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const UTCtoPacific = (time: Date) => {
@@ -124,11 +124,14 @@ const handleRouter = (session: Session) => {
 
 export {
   getSessions,
-  getSessionsForDay,
+  getSessionsByDay,
   postSession,
   deleteSession,
   updateSession,
   UTCtoPacific,
   timeSlotValidation,
   isTimePast,
+  handleRouter,
+  socketEmitter,
+  socket,
 };
