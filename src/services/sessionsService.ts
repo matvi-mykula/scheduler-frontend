@@ -5,26 +5,15 @@ import { io } from 'socket.io-client';
 import { notifications } from '@mantine/notifications';
 import { ActionIcon } from '@mantine/core';
 import router from 'next/router';
+import styles from '@/styles/Home.module.css';
 
-//// --- socket.io-client stuff
+//// --- socket.io-client stuff --- should emit anytime the calendar changes
 const socket = io('http://localhost:3001');
 const socketEmitter = () => {
   console.log('calendar change emit');
   socket.emit('calendar:updated');
 };
-
-// const handlePostSocketEmit = (event) => {
-//   event.preventDefault();
-//   fetch('/api/sessions', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ title }),
-//   }).then(() => {
-//     // Emit a calendar:update event to trigger a re-render of the calendar
-//     const socket = io();
-//     socket.emit('calendar:update');
-//   });
-// };
+////----
 
 const getSessions = async () => {
   const response = await axios.get(`${serverPath}/api/sessions`);

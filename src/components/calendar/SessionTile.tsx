@@ -33,13 +33,10 @@ const SessionTile = (props: { session: Session }) => {
 
       setClient(aClient.data);
     }
-
+    /// aClient is happenbing a lottttt of times
     fetchData();
-  }, []);
-
-  useEffect(() => {
     setLoaded(true);
-  }, [client]);
+  }, []);
 
   return (
     <Box>

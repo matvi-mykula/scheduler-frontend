@@ -18,7 +18,6 @@ const Calendar = () => {
     /// need leading zero on month
     const sessionsByDay = await getSessionsByDay();
     setSessions(sessionsByDay);
-    console.log(sessionsByDay);
     setLoaded(true);
   }
 

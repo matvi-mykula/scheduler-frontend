@@ -9,6 +9,8 @@ import {
   timeSlotValidation,
   isTimePast,
   socketEmitter,
+  notificationMessage,
+  getClientName,
   // socketEmitter,
   // socketEmitter,
 } from '@/services/sessionsService';
@@ -143,23 +145,26 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
       let SessionResponse;
       console.log({ edit });
       edit || router.query.edit // pass edit=true if this is an edit form
-        ? (SessionResponse = await updateSession(newSession)) //need to validate this still
+        ? (SessionResponse = await updateSession(newSession))
         : (SessionResponse = await postSession(newSession));
       console.log(SessionResponse);
       if (SessionResponse.success) {
         console.log('SUCCESS');
+        socketEmitter();
         router.push({
           pathname: `/calendar`,
         });
         notifications.show({
-          title: 'New Session',
-          message: `You have scheduled a session with (clientnamehere) at ${newSession.location}`,
+          title: edit || router.query.edit ? 'Session Edited' : 'New Session',
+          message: `${
+            edit || router.query.edit
+              ? 'Edit successful for session at'
+              : 'Session create at'
+          } ${newSession.location} with ${getClientName(
+            newSession.client_id,
+            possibleClients
+          )}`,
         });
-        /////----------------------
-        // socket.emit('calendar:updated');
-
-        socketEmitter(); /// is this where this should go?
-        ///////-------------------------------------------
       } else {
         notifications.show({
           title: 'Default notification',
