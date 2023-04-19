@@ -150,6 +150,82 @@ const handleRouter = (session: Session) => {
   });
 };
 
+const notificationMessage = (edit: any) => {
+  return edit ? 'Edit successful for session at ' : 'Session created at';
+};
+
+const getClientName = (clientId: string, possibleClients: any) => {
+  const client = possibleClients.find((c: any) => c.value === clientId);
+  return client ? client.label : '';
+};
+
+///drag adn drop
+
+const handleDragStart = (e: any, item: any, setState: Function) => {
+  setState(item);
+  console.log({ item });
+  e.dataTransfer?.setData('text/plain', JSON.stringify(item));
+  e.currentTarget?.classList.add(styles.dragOver);
+};
+const handleDragEnd = (e: any) => {
+  // Remove the class added during drag start
+  e.currentTarget?.classList.remove(styles.dragged);
+};
+
+const handleDragOver = (e: any) => {
+  e.preventDefault();
+  e.currentTarget.classList.add(styles.dragOver);
+};
+
+const handleDragLeave = (e: any) => {
+  // Remove the class from the empty slot when the dragged item leaves it
+  e.currentTarget.classList.remove(styles.dragOver);
+};
+
+const handleDrop = (e: any, targetItem: any, setState: Function) => {
+  e.preventDefault();
+  // const target = e.target as HTMLDivElement; // Cast event.target to HTMLDivElement
+  // console.log(target);
+  e.currentTarget.classList.remove(styles.dragOver);
+
+  // Do something with the dragged item and the target item
+  console.log('Dragged item:');
+  console.log('Target item:', targetItem);
+  const session = e.dataTransfer?.getData('text/plain');
+
+  const date = targetItem;
+
+  const options = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const dateString = date.toLocaleString('en-US', options);
+
+  if (session) {
+    if (
+      window.confirm(
+        `Are you sure you want to move this session to ${dateString}?`
+      )
+    ) {
+      let newSession = JSON.parse(session);
+      console.log({ newSession });
+      newSession.date_time = targetItem;
+      updateSession(newSession);
+      socketEmitter();
+      notifications.show({
+        title: 'Session Edited',
+        message: `Edit successful for session at ${newSession.location} with ${newSession.client_id}`,
+      });
+    }
+
+    setState(null);
+  }
+};
+
 export {
   getSessions,
   getSessionsByDay,
@@ -161,5 +237,12 @@ export {
   isTimePast,
   handleRouter,
   socketEmitter,
+  notificationMessage,
+  getClientName,
   socket,
+  handleDragOver,
+  handleDragStart,
+  handleDragEnd,
+  handleDrop,
+  handleDragLeave,
 };

@@ -8,6 +8,13 @@ import {
   handleRouter,
   timeSlotValidation,
 } from '../../services/sessionsService';
+import {
+  handleDragOver,
+  handleDragStart,
+  handleDrop,
+  handleDragEnd,
+  handleDragLeave,
+} from '../../services/calendarDrag';
 import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
 import { notifications } from '@mantine/notifications';
@@ -18,6 +25,8 @@ import SessionTile from './SessionTile';
 interface DayScheduleProps {
   day: number;
   sessions: Session[];
+  draggedItem: any;
+  setDraggedItem: Function;
 }
 // const socket = io('http://localhost:3001', { autoConnect: false });
 // const socketEmitter = () => {
@@ -104,6 +113,9 @@ const DaySchedule = (props: DayScheduleProps) => {
         <Box
           key={time}
           className={styles.emptySlot}
+          onDragOver={(e) => handleDragOver(e)}
+          onDragLeave={(e) => handleDragLeave(e)}
+          onDrop={(e: any) => handleDrop(e, timeBlock, props.setDraggedItem)}
           onClick={() => {
             let time = new Date(timeBlock);
             router.push({
@@ -154,6 +166,15 @@ const DaySchedule = (props: DayScheduleProps) => {
           isWithinTimeBlock = true;
           dayElements[i] = (
             <Box
+              className="scheduledSlot" //// why is there a slight margin difference???
+              draggable="true"
+              onDragStart={(e) =>
+                handleDragStart(e, session, props.setDraggedItem)
+              }
+              onDragLeave={(e) => handleDragLeave(e)}
+              onDragEnd={(e) => {
+                handleDragEnd(e);
+              }}
               key={session.id}
               onClick={() => {
                 notifications.show({

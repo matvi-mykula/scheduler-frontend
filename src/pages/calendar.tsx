@@ -26,13 +26,14 @@ const Calendar = () => {
     fetchData();
   }, []);
 
-  ///// ------ socket.io stuff ----------------------
-  // const socket = io('http://localhost:3001', { autoConnect: false });
-
-  // const socket = io('http://localhost:3001', { autoConnect: false });
   socket.on('calendar:updated', () => {
     fetchData();
   });
+
+  ///// drag and drop
+  const [draggedItem, setDraggedItem] = useState(null);
+
+  ////////
 
   return (
     <Box>
@@ -46,6 +47,8 @@ const Calendar = () => {
               <DaySchedule
                 day={number}
                 sessions={sessions && sessions[number]}
+                draggedItem={draggedItem}
+                setDraggedItem={setDraggedItem}
               />
             </Box>
           ))}
