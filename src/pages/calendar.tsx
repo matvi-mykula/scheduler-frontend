@@ -15,7 +15,6 @@ const Calendar = () => {
   const [loaded, setLoaded] = useState(false);
 
   async function fetchData() {
-    /// need leading zero on month
     const sessionsByDay = await getSessionsByDay();
     setSessions(sessionsByDay);
     setLoaded(true);
@@ -25,8 +24,9 @@ const Calendar = () => {
     fetchData();
   }, []);
 
-  socket.on('calendar:updated', () => {
-    fetchData();
+  socket.on('calendar:updated', (data) => {
+    console.log(data);
+    // fetchData();
   });
 
   ///// drag and drop

@@ -166,7 +166,7 @@ const DaySchedule = (props: DayScheduleProps) => {
           isWithinTimeBlock = true;
           dayElements[i] = (
             <Box
-              className="scheduledSlot" //// why is there a slight margin difference???
+              className="scheduledSlot"
               draggable="true"
               onDragStart={(e) =>
                 handleDragStart(e, session, props.setDraggedItem)

@@ -26,8 +26,7 @@ const handleDragLeave = (e: any) => {
 
 const handleDrop = (e: any, targetItem: any, setState: Function) => {
   e.preventDefault();
-  // const target = e.target as HTMLDivElement; // Cast event.target to HTMLDivElement
-  // console.log(target);
+
   e.currentTarget.classList.remove(styles.dragOver);
 
   // Do something with the dragged item and the target item

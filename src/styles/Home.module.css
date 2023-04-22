@@ -323,13 +323,16 @@
 }
 .scheduledSlot {
   margin-bottom: 1px;
+  border: 1px solid black;
 }
 .sessionCard {
   height: 90px;
   background-color: palegreen;
+  border: 1px solid black;
+  margin-bottom: 1px;
 }
 .sessionCard:hover {
-  border: 1px solid black;
+  border: 2px solid black;
 }
 .sessionCard > * {
   /* margin-top: 0%; */
