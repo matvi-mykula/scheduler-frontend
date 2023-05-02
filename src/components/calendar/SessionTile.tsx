@@ -31,7 +31,7 @@ const SessionTile = (props: { session: Session }) => {
     async function fetchData() {
       const aClient = await getClient(props.session.client_id);
 
-      setClient(aClient.data);
+      await setClient(aClient.data);
     }
     /// aClient is happenbing a lottttt of times
     fetchData();

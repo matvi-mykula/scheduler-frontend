@@ -24,9 +24,8 @@ const Calendar = () => {
     fetchData();
   }, []);
 
-  socket.on('calendar:updated', (data) => {
-    console.log(data);
-    // fetchData();
+  socket.on('calendar:updated', () => {
+    fetchData();
   });
 
   ///// drag and drop
