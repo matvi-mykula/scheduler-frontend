@@ -145,7 +145,6 @@ const SessionForm: React.FC<Props> = ({ startSession, edit }) => {
         : (SessionResponse = await postSession(newSession));
       console.log(SessionResponse);
       if (SessionResponse.success) {
-        console.log('SUCCESS');
         socketEmitter();
         router.push({
           pathname: `/calendar`,
