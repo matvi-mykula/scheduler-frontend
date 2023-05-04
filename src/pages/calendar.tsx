@@ -3,7 +3,7 @@ import { getClient } from '@/services/clientsService';
 import { Session } from '@/types/session';
 import { SimpleGrid, Box, Text, Paper, Loader } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import Client from '@/types/user';
+import { Client } from '@/types/user';
 import { DaySchedule } from '@/components/calendar/DailySchedule';
 import { io } from 'socket.io-client';
 

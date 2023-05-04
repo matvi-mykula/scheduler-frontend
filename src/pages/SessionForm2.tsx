@@ -14,14 +14,10 @@ import {
   // socketEmitter,
   // socketEmitter,
 } from '@/services/sessionsService';
-import Client from '@/types/user';
+import { Client } from '@/types/user';
 import { DateTimePicker, DateValue } from '@mantine/dates';
 import { Box, TextInput, Select, Checkbox, Button, Text } from '@mantine/core';
-import {
-  postTextToPhone,
-  reminderMessage,
-  schedulingMessage,
-} from '@/services/scheduleText';
+
 import { Session } from '@/types/session';
 import { useRouter } from 'next/router';
 import { getClients } from '@/services/clientsService';

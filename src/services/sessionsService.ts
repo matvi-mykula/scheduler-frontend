@@ -51,6 +51,7 @@ const updateSession = async (sessionData: Session) => {
       sessionData,
     });
     console.log(`success : ${UpdateResponse.data.success}`);
+    socketEmitter();
     return UpdateResponse.data;
   } catch (err) {
     console.log(err);

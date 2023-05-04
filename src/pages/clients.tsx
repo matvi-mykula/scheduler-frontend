@@ -15,7 +15,7 @@ import { getClients } from '@/services/clientsService';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
-import Client from '@/types/user';
+import { Client } from '@/types/user';
 import { DataTable } from 'mantine-datatable';
 
 export default function Clients() {

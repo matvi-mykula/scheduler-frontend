@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Client from '@/types/user';
+import { ClientInput } from '@/types/user';
 import { serverPath } from '@/utils/environment';
 
 const getClients = async () => {
@@ -7,20 +7,23 @@ const getClients = async () => {
   return response.data;
 };
 
-const postClient = (clientData: Client) => {
-  axios
-    .post(`${serverPath}/api/clients`, {
+const postClient = async (clientData: ClientInput) => {
+  console.log({ clientData });
+  console.log('posting');
+  try {
+    const response = await axios.post(`${serverPath}/api/clients/`, {
       clientData,
-    })
-    .then((response) => {})
-    .catch((err) => {
-      console.log(err);
     });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
+
+// this is happening a lot
 
 const getClient = async (client_id: string) => {
   const response = await axios.get(`${serverPath}/api/clients/${client_id}`);
-  console.log({ response });
   return response.data;
 };
 export { getClients, postClient, getClient };

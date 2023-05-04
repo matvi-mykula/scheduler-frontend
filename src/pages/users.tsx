@@ -30,8 +30,9 @@ function User() {
   });
 
   const handleSubmit = async (formData: any) => {
-    const newClient = { ...formData, numSessions: 0, numCancels: 0 };
+    const newClient = { ...formData, num_sessions: 0, num_cancels: 0 };
     const postClientResponse = await postClient(newClient);
+    console.log(postClientResponse);
   };
 
   return (

@@ -43,7 +43,7 @@ export default function Sessions() {
 
   const onDropConfirm = (row: any) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
-      console.log(row);
+      console.log({ row });
       deleteSession(row);
       setTableChange(!tableChange);
       // socketEmitter();
@@ -71,12 +71,12 @@ export default function Sessions() {
             title: <Text mr="xs">Actions</Text>,
             textAlignment: 'left',
             width: 80,
-            render: (row) => (
+            render: (record) => (
               <>
                 <Box>
                   <ActionIcon
                     color="red"
-                    onClick={(row) => onDropConfirm(row)}
+                    onClick={(row) => onDropConfirm(record)}
                   >
                     <IconTrash size={16} />
                   </ActionIcon>
