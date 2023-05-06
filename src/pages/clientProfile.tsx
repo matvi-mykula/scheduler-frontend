@@ -1,4 +1,4 @@
-import Client from '@/types/user';
+import { Client } from '@/types/user';
 import { Box, Card, Text, Button } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

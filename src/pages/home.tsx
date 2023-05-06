@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styles from '@/styles/Home.module.css';
 import { Box } from '@mantine/core';
 import { Inter } from 'next/font/google';
-import Layout from './index';
 const inter = Inter({ subsets: ['latin'] });
 
 function Home() {

@@ -1,6 +1,6 @@
 import { getClient } from '@/services/clientsService';
 import { Session } from '@/types/session';
-import Client from '@/types/user';
+import { Client } from '@/types/user';
 import { Box, Paper, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/Home.module.css';
