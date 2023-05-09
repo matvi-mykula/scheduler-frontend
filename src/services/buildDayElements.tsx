@@ -65,6 +65,7 @@ const buildDayElements = (props: DayScheduleProps) => {
   // Iterate through the time slots
   for (let i = 0 * 60; i < timeBlocks.length; i += 1) {
     // Calculate the start and end times for the current slot
+
     let blockStatus = null;
     let session;
     if (!props.sessions) {
@@ -77,7 +78,6 @@ const buildDayElements = (props: DayScheduleProps) => {
     switch (blockStatus) {
       case 'scheduled':
         if (session) {
-          console.log('scheudled' + timeBlocks[i]);
           dayElements.push(
             sessionElement({
               session: session,
@@ -86,19 +86,20 @@ const buildDayElements = (props: DayScheduleProps) => {
             })
           );
         }
-        i += 1;
+        i += 2; /// skip 2 timeblocks
+        continue;
       case 'buffer':
-        console.log('BUFFER ' + timeBlocks[i]);
         dayElements.push(unavailableElement(timeBlocks[i]));
+        continue;
 
       case 'available':
-        console.log('AVAILABLE ' + timeBlocks[i]);
         dayElements.push(
           availableElement({
             timeBlock: timeBlocks[i],
             setDraggedItem: props.setDraggedItem,
           })
         );
+        continue;
     }
   }
   return dayElements;
@@ -107,18 +108,15 @@ const buildDayElements = (props: DayScheduleProps) => {
 // Function to check if a time slot is within 75 minutes before a scheduled slot
 /// make this return scheduled, available or unavailable and then do a switch
 function checkSlotStatus(timeSlot: Date, bookedSlots: Session[]) {
-  // console.log({ timeSlot });
   const timeSlotStart = moment(timeSlot);
-  const timeSlotEnd = moment(timeSlot).add(30, 'minutes');
+  const timeSlotEnd = moment(timeSlot).add(29, 'minutes');
 
   for (const bookedSlot of bookedSlots) {
-    console.log({ bookedSlot });
-    console.log(bookedSlot.date_time);
-    console.log({ timeSlot });
-
-    const timeOfSession = moment(bookedSlot.date_time);
     const sessionStart = moment(bookedSlot.date_time);
-    const sessionEnd = moment(bookedSlot.date_time).add(60, 'minutes');
+    const sessionStartMinus = moment(bookedSlot.date_time).subtract(
+      1,
+      'minutes'
+    );
     const bufferBeforeSession = moment(bookedSlot.date_time).subtract(
       75,
       'minutes'
@@ -127,30 +125,18 @@ function checkSlotStatus(timeSlot: Date, bookedSlots: Session[]) {
     if (sessionStart.isBetween(timeSlotStart, timeSlotEnd, null, '[]')) {
       return ['scheduled', bookedSlot];
     } else if (
-      timeSlotStart.isBetween(bufferBeforeSession, sessionStart, null, '[]')
+      timeSlotStart.isBetween(
+        bufferBeforeSession,
+        sessionStartMinus,
+        null,
+        '[]'
+      )
     ) {
       return ['buffer', null];
     }
   }
+  /// the timeslot is not scheduled or in buffer zone of any booked slot
   return ['available', null];
-
-  //   const isSession = timeOfSession.isBetween(timeSlotStart, timeSlotEnd);
-  //   if (isSession) {
-  //     return ['scheduled', bookedSlot]; /// must session
-  //   }
-  //   const isWithin75MinutesOfStart = timeSlotStart.isBetween(
-  //     bufferBeforeSession,
-  //     moment(sessionStart).subtract(1, 'minutes'),
-  //     null,
-  //     '[]'
-  //   );
-
-  //   if (isWithin75MinutesOfStart) {
-  //     return ['buffer', null];
-  //   }
-  // }
-
-  // return ['available', null];
 }
 
 interface ScheduledSlotProps {
