@@ -24,14 +24,10 @@ const handleDragLeave = (e: any) => {
   e.currentTarget.classList.remove(styles.dragOver);
 };
 
-const handleDrop = (e: any, targetItem: any, setState: Function) => {
+const handleDrop = async (e: any, targetItem: any, setState: Function) => {
   e.preventDefault();
-
   e.currentTarget.classList.remove(styles.dragOver);
-
   // Do something with the dragged item and the target item
-  console.log('Dragged item:');
-  console.log('Target item:', targetItem);
   const session = e.dataTransfer?.getData('text/plain');
 
   const date = targetItem;
@@ -53,9 +49,8 @@ const handleDrop = (e: any, targetItem: any, setState: Function) => {
       )
     ) {
       let newSession = JSON.parse(session);
-      console.log({ newSession });
       newSession.date_time = targetItem;
-      updateSession(newSession);
+      await updateSession(newSession);
       socketEmitter();
       notifications.show({
         title: 'Session Edited',

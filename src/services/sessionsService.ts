@@ -31,7 +31,6 @@ const getSessionsByDay = async () => {
 
 const postSession = async (sessionData: Session) => {
   console.log('posting');
-  console.log(sessionData);
   try {
     const SessionResponse = await axios.post(`${serverPath}/api/sessions`, {
       sessionData,
@@ -45,14 +44,15 @@ const postSession = async (sessionData: Session) => {
 
 const updateSession = async (sessionData: Session) => {
   console.log('putting');
-  console.log(sessionData);
 
   try {
+    console.log('trying');
     const UpdateResponse = await axios.put(`${serverPath}/api/sessions`, {
       sessionData,
     });
+    console.log('updateResponse');
     console.log(`success : ${UpdateResponse.data.success}`);
-    socketEmitter();
+    // socketEmitter();
     return UpdateResponse.data;
   } catch (err) {
     console.log(err);
