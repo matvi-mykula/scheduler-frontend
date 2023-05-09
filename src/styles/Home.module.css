@@ -326,7 +326,8 @@
   border: 1px solid black;
 }
 .sessionCard {
-  height: 90px;
+  height: 92px;
+  /* this aligns height of session card with 3 unschedled slots + the margins between */
   background-color: palegreen;
   border: 1px solid black;
   margin-bottom: 1px;
