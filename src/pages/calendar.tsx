@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Client } from '@/types/user';
 import { DaySchedule } from '@/components/calendar/DailySchedule';
 import { io } from 'socket.io-client';
+import styles from '@/styles/Home.module.css';
 
 /// use websocket to check sessions and place sessions that are made onto
 /// the calendar as tiles
@@ -37,7 +38,7 @@ const Calendar = () => {
 
   return (
     <Box>
-      <Box>
+      <Box className={styles.weekButtons}>
         <Button
           onClick={() => {
             setWeekOf((weekOf) => weekOf - 1);

@@ -347,3 +347,8 @@
   border: 3px solid black;
   background-color: grey;
 }
+.weekButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
