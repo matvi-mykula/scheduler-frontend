@@ -11,12 +11,12 @@ import {
 import { notifications } from '@mantine/notifications';
 import SessionTile from '@/components/calendar/SessionTile';
 import router, { useRouter } from 'next/router';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import styles from '@/styles/Home.module.css';
 import { IconX } from '@tabler/icons-react';
 
 interface DayScheduleProps {
-  day: number;
+  day: Moment;
   sessions: Session[];
   draggedItem: any;
   setDraggedItem: Function;
@@ -25,37 +25,37 @@ interface DayScheduleProps {
 const buildDayElements = (props: DayScheduleProps) => {
   // const router = useRouter();
 
-  const today = new Date();
-  today.setDate(today.getDate() + props.day);
-  const day = today.getDate();
-  const month = (today.getMonth() + 1).toLocaleString('en-US', {
-    minimumIntegerDigits: 2,
-  });
+  const today = props.day;
+  console.log({ today });
+  // const day = today.getDate();
+  // const month = (today.getMonth() + 1).toLocaleString('en-US', {
+  //   minimumIntegerDigits: 2,
+  // });
   const startHour = 7; // 7am
   const endHour = 19; // 7pm
 
   const dayElements: any[] = [];
-  const timeBlocks: Date[] = [];
+  const timeBlocks: moment.Moment[] = [];
   for (let hour = 7; hour <= 18; hour++) {
     timeBlocks.push(
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate(),
-        hour,
-        0,
-        0
-      )
+      moment({
+        year: today.year(),
+        month: today.month(),
+        date: today.date(),
+        hour: hour,
+        minute: 0,
+        second: 0,
+      })
     );
     timeBlocks.push(
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate(),
-        hour,
-        30,
-        0
-      )
+      moment({
+        year: today.year(),
+        month: today.month(),
+        date: today.date(),
+        hour: hour,
+        minute: 30,
+        second: 0,
+      })
     );
   }
 
@@ -107,7 +107,7 @@ const buildDayElements = (props: DayScheduleProps) => {
 
 // Function to check if a time slot is within 75 minutes before a scheduled slot
 /// make this return scheduled, available or unavailable and then do a switch
-function checkSlotStatus(timeSlot: Date, bookedSlots: Session[]) {
+function checkSlotStatus(timeSlot: Moment, bookedSlots: Session[]) {
   const timeSlotStart = moment(timeSlot);
   const timeSlotEnd = moment(timeSlot).add(29, 'minutes');
 
@@ -191,10 +191,11 @@ interface AvailableElementProps {
 }
 
 const availableElement = (props: AvailableElementProps) => {
-  let time = `${props.timeBlock.getHours().toString()}:${props.timeBlock
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')}`;
+  // let time = `${props.timeBlock.getHours().toString()}:${props.timeBlock
+  //   .getMinutes()
+  //   .toString()
+  //   .padStart(2, '0')}`;
+  let time = `${props.timeBlock.format('HH:mm')}`;
   return (
     <Box
       key={time}
@@ -223,10 +224,12 @@ const availableElement = (props: AvailableElementProps) => {
 };
 
 const unavailableElement = (timeBlock: any) => {
-  let time = `${timeBlock.getHours().toString()}:${timeBlock
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')}`;
+  // let time = `${timeBlock.getHours().toString()}:${timeBlock
+  //   .getMinutes()
+  //   .toString()
+  //   .padStart(2, '0')}`;
+  let time = `${timeBlock.format('HH:mm')}`;
+
   return (
     <Box
       key={time}

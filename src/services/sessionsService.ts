@@ -20,9 +20,11 @@ const getSessions = async () => {
   return response.data;
 };
 
-const getSessionsByDay = async () => {
+const getSessionsByDay = async (weekStart: number) => {
   try {
-    const response = await axios.get(`${serverPath}/api/sessions/week`);
+    const response = await axios.get(
+      `${serverPath}/api/sessions/week?weekStart=${weekStart}`
+    );
     return response.data.success ? response.data.data : [];
   } catch (err) {
     console.log(err);

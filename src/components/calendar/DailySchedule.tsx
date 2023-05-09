@@ -21,12 +21,14 @@ import { IconX } from '@tabler/icons-react';
 import { io } from 'socket.io-client';
 import SessionTile from './SessionTile';
 import { buildDayElements } from '@/services/buildDayElements';
+import moment from 'moment';
 
 interface DayScheduleProps {
   day: number;
   sessions: Session[];
   draggedItem: any;
   setDraggedItem: Function;
+  weekOf: number;
 }
 
 // const socket = io('http://localhost:3001', { autoConnect: false });
@@ -39,16 +41,15 @@ const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DaySchedule = (props: DayScheduleProps) => {
   const router = useRouter();
 
-  const today = new Date();
-  today.setDate(today.getDate() + props.day);
-  const dayOfWeek = weekdays[today.getDay()];
-  const day = today.getDate();
-  const month = (today.getMonth() + 1).toLocaleString('en-US', {
-    minimumIntegerDigits: 2,
-  });
+  const today = moment();
+  const firstDayOfWeek = today.add(props.weekOf, 'weeks');
+  const dayOfWeek = firstDayOfWeek.add(props.day, 'days');
 
+  const dayTitle = dayOfWeek.format('ddd DD/MM');
+  console.log({ dayTitle });
+  console.log({ dayOfWeek });
   const dayElements = buildDayElements({
-    day: props.day,
+    day: dayOfWeek,
     sessions: props.sessions,
     draggedItem: props.draggedItem,
     setDraggedItem: props.setDraggedItem,
@@ -220,7 +221,7 @@ const DaySchedule = (props: DayScheduleProps) => {
         <>
           {' '}
           <Box className={styles.scheduleColumnHeader}>
-            <Text>{`${month}/${day} ${dayOfWeek}`}</Text>
+            <Text>{`${dayTitle} `}</Text>
           </Box>
           <Box>{dayElements}</Box>
         </>
