@@ -26,7 +26,6 @@ const buildDayElements = (props: DayScheduleProps) => {
   // const router = useRouter();
 
   const today = props.day;
-  console.log({ today });
   // const day = today.getDate();
   // const month = (today.getMonth() + 1).toLocaleString('en-US', {
   //   minimumIntegerDigits: 2,

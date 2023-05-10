@@ -352,3 +352,8 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.calendarHeader {
+  text-align: center;
+  font-size: 30px;
+}

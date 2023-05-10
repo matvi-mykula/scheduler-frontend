@@ -38,6 +38,9 @@ const Calendar = () => {
 
   return (
     <Box>
+      <Box>
+        <Text className={styles.calendarHeader}>Training Calendar</Text>
+      </Box>
       <Box className={styles.weekButtons}>
         <Button
           onClick={() => {
